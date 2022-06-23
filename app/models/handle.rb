@@ -1,0 +1,3 @@
+class Handle < ApplicationRecord
+
+end
