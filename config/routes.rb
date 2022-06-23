@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "handles#new"
   resources :handles, path: "" do
-    resources :keys
+    resources :keys do
+      get "claim"
+      resource :proof, only: [:create, :show]
+    end
   end
 end

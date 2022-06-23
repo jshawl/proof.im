@@ -1,4 +1,20 @@
 
-<code><%= @key.content %></code>
+<pre><code><%= @key.content %></code></pre>
 
 <br><small><time><%= @key.created_at %></time></small>
+
+<h3>Prove it!</h3>
+
+<p>To prove ownership of this key, sign the claim:</p>
+
+<pre><code>curl -O <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%>
+minisign -S -m claim.txt</code></pre>
+
+<p>and upload the signature:</p>
+<pre><code>cat claim.txt.minisig</code></pre>
+
+<%= form_with model: [:handle, :key, @proof], url: handle_key_proof_path(@handle.name, @key, @proof) do |f| %>
+  <%= f.label :content, "Signature:" %>
+  <%= f.text_area :content %>
+  <%= f.submit %>
+<% end %>

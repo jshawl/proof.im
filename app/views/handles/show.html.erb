@@ -5,5 +5,5 @@
 <h3>Public Keys:</h3>
 <% @handle.keys.each do |key| %>
   <%= link_to "view", handle_key_path(@handle.name, key) %>
-  <code><%= key.content %></code>
+  <pre><code><%= key.content %></code></pre>
 <% end %>
