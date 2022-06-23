@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root "handles#new"
-  resources :handles
-  get "/:username", to: "handles#show", as: :username
+  resources :handles, path: "" do
+    resources :keys
+  end
 end

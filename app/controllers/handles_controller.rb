@@ -6,10 +6,10 @@ class HandlesController < ApplicationController
   end
   def create
     @handle = Handle.find_or_create_by!(handle_params)
-    redirect_to username_path(@handle.name)
+    redirect_to handle_path(id: @handle.name)
   end
   def show
-    @handle = Handle.find_by_name(params[:username])
+    @handle = Handle.find_by_name(params[:id])
   end
   private
   def handle_params

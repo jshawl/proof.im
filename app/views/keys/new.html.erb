@@ -1,0 +1,6 @@
+Add a new key for <%= @handle.name %>:
+
+<%= form_with model: [:handle, @key] do |f| %>
+  <%= f.text_area :content %>
+  <%= f.submit %>
+<% end %>
