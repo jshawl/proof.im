@@ -22,9 +22,15 @@ describe 'Claiming a Handle' do
   it 'asks for proof' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.id, format: 'txt')
     visit handle_key_path(handle_id: @handle.name, id: @key.id)
     fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
     click_on 'Create Proof'
     expect(page).to have_content('Signature and comment signature verified')
+  end
+  it 'has a show route' do
+    @handle = Handle.create(name: 'jshawl')
+    visit handle_path(id: @handle.name)
+    expect(page.status_code).to eq(200)
   end
 end

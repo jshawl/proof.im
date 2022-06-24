@@ -8,11 +8,6 @@ class KeysController < ApplicationController
     @key = @handle.keys.create!(key_params)
     redirect_to handle_key_path(handle_id: @handle.name, id: @key.id)
   end
-
-  def index
-    @handle = Handle.find_by_name(params[:handle_id])
-    @keys = @handle.keys
-  end
   def show
     @handle = Handle.find_by_name(params[:handle_id])
     @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:id])
