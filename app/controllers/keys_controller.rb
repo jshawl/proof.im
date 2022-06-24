@@ -16,7 +16,7 @@ class KeysController < ApplicationController
   def show
     @handle = Handle.find_by_name(params[:handle_id])
     @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:id])
-    @proof = @key.build_proof
+    @proof = @key.proof || @key.build_proof
   end
 
   def claim

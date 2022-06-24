@@ -14,7 +14,7 @@
     <h1>
       <%= link_to "proof.im", root_path %>
       /
-      <%= link_to @handle.name, handle_path(@handle.name) if @handle %>
+      <%= (link_to @handle.name, handle_path(@handle.name)) if @handle&.id %>
     </h1>
     <%= yield %>
   </body>
