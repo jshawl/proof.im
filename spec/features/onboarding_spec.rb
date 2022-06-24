@@ -9,6 +9,16 @@ describe 'Claiming a Handle' do
     }.to change{Handle.count}.by(1)
     expect(page).to have_current_path('/jshawl/keys/new')
   end
+  it 'shows a profile if verified key' do
+    @handle = Handle.create(name: 'jshawl')
+    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
+
+    visit root_path
+    fill_in 'handle[name]', with: 'jshawl'
+    click_on 'Create Handle'
+    expect(page).to have_content('This handle has already been claimed')
+  end
   it 'creates a key' do
     @handle = Handle.create(name: 'jshawl')
     expect{
@@ -32,5 +42,15 @@ describe 'Claiming a Handle' do
     @handle = Handle.create(name: 'jshawl')
     visit handle_path(id: @handle.name)
     expect(page.status_code).to eq(200)
+  end
+end
+
+describe 'Claiming a handle that already has keys' do
+  it 'should not allow randos to add keys' do
+    @handle = Handle.create(name: 'jshawl')
+    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
+    visit handle_path(id: @handle.name)
+    expect(page).to have_no_content('Add a public key')
   end
 end

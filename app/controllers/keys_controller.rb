@@ -1,6 +1,10 @@
 class KeysController < ApplicationController
   def new
     @handle = Handle.find_by_name(params[:handle_id])
+    if @handle.keys.any?
+      flash[:notice] = 'This handle has already been claimed'
+      return redirect_to handle_path(id: @handle.name)
+    end
     @key = @handle.keys.build
   end
   def create

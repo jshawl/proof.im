@@ -3,6 +3,11 @@
 
 <br><small><time><%= @key.created_at %></time></small>
 
+<% if @key.proof.persisted? %>
+  This key has been verified!
+  <%= link_to "View proof", handle_key_proof_path(handle_id: @handle.name, key_id: @key.id) %>
+<% else %>
+
 <h3>Prove it!</h3>
 
 <p>To prove ownership of this key, sign the claim:</p>
@@ -17,4 +22,6 @@ minisign -S -m claim.txt</code></pre>
   <%= f.label :content, "Signature:" %>
   <%= f.text_area :content %>
   <%= f.submit %>
+<% end %>
+
 <% end %>

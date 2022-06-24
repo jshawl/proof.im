@@ -16,6 +16,11 @@
       /
       <%= (link_to @handle.name, handle_path(@handle.name)) if @handle&.id %>
     </h1>
+    <% flash.each do |type, msg| %>
+      <div class='flash <%= type %>'>
+        <%= msg %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>

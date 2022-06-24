@@ -29,3 +29,11 @@ body {
 h1, h2, h3 {
   font-weight: normal;
 }
+
+.flash.notice {
+  border: 1px solid #BEE5EB;
+  background: #D1ECF1;
+  color: #0B5460;
+  padding: 1em;
+  border-radius: 5px;
+}
