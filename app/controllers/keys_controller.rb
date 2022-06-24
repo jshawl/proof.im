@@ -6,7 +6,7 @@ class KeysController < ApplicationController
   def create
     @handle = Handle.find_by_name(params[:handle_id])
     @key = @handle.keys.create!(key_params)
-    redirect_to handle_path(id: @handle.name)
+    redirect_to handle_key_path(handle_id: @handle.name, id: @key.id)
   end
 
   def index

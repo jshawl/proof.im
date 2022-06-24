@@ -55,6 +55,17 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
+group :test do
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara', '>= 3.26'
+  gem 'rspec-rails'
+  gem 'selenium-webdriver'
+  gem 'webmock'
+  # Easy installation and use of web drivers to run system tests with browsers
+  gem 'webdrivers'
+  gem 'simplecov', require: false
+end
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
