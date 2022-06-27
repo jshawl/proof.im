@@ -1,4 +1,4 @@
 module ApplicationHelper
-  def current_user
+  def current_handle
   end
 end

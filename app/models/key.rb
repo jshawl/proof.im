@@ -5,8 +5,20 @@ class Key < ApplicationRecord
 
   scope :verified, -> {includes(:proof).where.not({proof: {id: nil}})}
 
+  def key_id
+    Minisign::PublicKey.new(content).key_id
+  end
+
+  def session_claim
+    "#{handle.name}@proof.im:#{SecureRandom.uuid}"
+  end
+
+  # def claim=(cl)
+  #   @claim = cl
+  # end
+
   def claim
-    "I am proving that I am #{handle.name} on proof.im with the following public key:
+    read_attribute(:claim) || "I am proving that I am #{handle.name} on proof.im with the following public key:
 #{content}"
   end
 end

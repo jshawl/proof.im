@@ -4,6 +4,5 @@
 
 <h2>Public Keys:</h2>
 <% @handle.keys.verified.each do |key| %>
-  <%= link_to "view", handle_key_path(@handle.name, key) %>
-  <pre><code><%= key.content %></code></pre>
+  🗝 <small>(minisign)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %>
 <% end %>
