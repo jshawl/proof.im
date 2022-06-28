@@ -34,8 +34,17 @@ describe 'Claiming a Handle' do
     @key = @handle.keys.create(content: minisign_public_key)
     visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.id, format: 'txt')
     visit handle_key_path(handle_id: @handle.name, id: @key.id)
-    fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
-    click_on 'Create Proof'
+
+    # server side
+    Proof.create!(
+      key: @key,
+      claim: File.read("spec/fixtures/claim.txt"),
+      content: File.read("spec/fixtures/claim.txt.minisig")
+    )
+    # fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
+
+
+    click_on 'I did this'
     expect(page).to have_content('Signature and comment signature verified')
   end
   it 'has a show route' do

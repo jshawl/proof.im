@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :handles, path: "" do
     resources :keys do
       get "claim"
+      post "proof", as: :proof
       resource :proof, only: [:create, :show]
     end
   end
