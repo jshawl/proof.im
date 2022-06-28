@@ -6,7 +6,7 @@ describe 'SessionsController', type: :request do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: minisign_public_key)
     @signature = File.read("spec/fixtures/session.txt.minisig")
-    @claim = "jshawl:abc-123"
+    @claim = File.read("spec/fixtures/session.txt")
     @headers = {
       Authorization: "Basic #{Base64.encode64(@claim)}"
     }
@@ -18,7 +18,7 @@ describe 'SessionsController', type: :request do
     expect {
       post '/session/proof', params: params, headers: @headers
     }.to change{ Proof.count }.by(1)
-    expect(Proof.last.claim).to eq(@claim + "\n")
+    expect(Proof.last.claim).to eq(@claim)
     expect(Proof.last.content).to eq(@signature)
     expect(Proof.last.verified?).to eq(true)
   end

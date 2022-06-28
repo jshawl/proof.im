@@ -25,11 +25,12 @@ class SessionsController < ApplicationController
     handle = claim.split(":")[0]
     @handle = Handle.find_by_name(handle)
     @key = @handle.keys.first
-    p = Proof.create(
+    Proof.create!(
       key: @key,
       claim: claim,
       content: signature
-    )
-    render json: {handle: handle, claim: claim, signature: signature}
+    ).verified?
+
+    head 200
   end
 end

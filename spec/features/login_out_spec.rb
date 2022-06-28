@@ -11,7 +11,7 @@ describe 'Logging In' do
     visit new_session_path(handle: 'jshawl')
 
     # server side
-    pr = Proof.create(
+    Proof.create(
       key: @key,
       claim: File.read("spec/fixtures/session.txt"),
       content: File.read("spec/fixtures/session.txt.minisig")
