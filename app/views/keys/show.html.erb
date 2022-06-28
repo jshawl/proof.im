@@ -18,7 +18,7 @@
 minisign -Sm /tmp/claim.txt</code></pre>
 
 <p>and upload the signature:</p>
-<pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" http://localhost:3000/jshawl/keys/1/proof
+<pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" -F "handle=<%= @handle.name %>" http://localhost:3000/proofs
 
 </code></pre>
 

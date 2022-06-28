@@ -1,6 +1,4 @@
 class KeysController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:proof]
-
   def new
     @handle = Handle.find_by_name(params[:handle_id])
     if @handle.keys.any?
@@ -23,20 +21,6 @@ class KeysController < ApplicationController
   def claim
     @handle = Handle.find_by_name(params[:handle_id])
     @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:key_id])
-  end
-
-  def proof
-    signature = params[:signature].read
-    claim = params[:claim].read
-    @handle = Handle.find_by_name(params[:handle_id])
-    @key = @handle.keys.first
-    pro = Proof.create!(
-      key: @key,
-      claim: claim,
-      content: signature
-    )
-    pro.verified?
-    render json: pro
   end
 
   private
