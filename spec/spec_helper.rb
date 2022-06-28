@@ -16,6 +16,11 @@ require 'simplecov'
 SimpleCov.start do
   add_filter "spec"
 end
+
+def minisign_public_key
+  'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+end
+
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

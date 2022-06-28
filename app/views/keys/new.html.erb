@@ -1,6 +1,9 @@
 Add a new key for <%= @handle.name %>:
 
+<pre><code>minisign -G && cat minisign.pub</code></pre>
+
 <%= form_with model: [:handle, @key] do |f| %>
-  <%= f.text_area :content %>
+  <%= f.label :content %>
+  <%= f.text_field :content %>
   <%= f.submit %>
 <% end %>

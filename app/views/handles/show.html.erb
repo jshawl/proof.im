@@ -1,9 +1,8 @@
-<% if current_user %>
+<% if current_handle %>
   <%= link_to "Add a public key", new_handle_key_path(handle_id: @handle.name) %>
 <% end %>
 
 <h2>Public Keys:</h2>
 <% @handle.keys.verified.each do |key| %>
-  <%= link_to "view", handle_key_path(@handle.name, key) %>
-  <pre><code><%= key.content %></code></pre>
+  🗝 <small>(minisign)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %>
 <% end %>

@@ -1,10 +1,5 @@
 class ProofsController < ApplicationController
-  def create
-    @handle = Handle.find_by_name(params[:handle_id])
-    @key = @handle.keys.find(params[:key_id])
-    @proof = @key.create_proof(proof_params)
-    redirect_to handle_key_proof_path(@handle.name, @key)
-  end
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def show
     @handle = Handle.find_by_name(params[:handle_id])
@@ -12,9 +7,18 @@ class ProofsController < ApplicationController
     @proof = @key.proof
   end
 
-  private
+  def create
+    signature = params[:signature].read
+    claim = params[:claim].read
+    handle = params[:handle]
+    @handle = Handle.find_by_name(handle)
+    @key = @handle.keys.first
+    Proof.create!(
+      key: @key,
+      claim: claim,
+      content: signature
+    ).verified?
 
-  def proof_params
-    params.require(:proof).permit(:content)
+    head 200
   end
 end

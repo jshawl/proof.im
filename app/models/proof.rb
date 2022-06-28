@@ -3,7 +3,9 @@ class Proof < ApplicationRecord
 
   def verification
     pk = Minisign::PublicKey.new(key.content)
-    sig = Minisign::Signature.new(content.gsub(/\r/,''))
-    pk.verify(sig, key.claim + "\n")
+    pk.verify(Minisign::Signature.new(content), claim)
+  end
+  def verified?
+    !!verification
   end
 end

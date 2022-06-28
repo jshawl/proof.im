@@ -11,7 +11,7 @@ describe 'Claiming a Handle' do
   end
   it 'shows a profile if verified key' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @key = @handle.keys.create(content: minisign_public_key)
     @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
 
     visit root_path
@@ -23,7 +23,7 @@ describe 'Claiming a Handle' do
     @handle = Handle.create(name: 'jshawl')
     expect{
       visit new_handle_key_path(handle_id: 'jshawl')
-      fill_in 'key[content]', with: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+      fill_in 'key[content]', with: minisign_public_key
       click_on 'Create Key'
     }.to change {Key.count}.by(1)
     
@@ -31,11 +31,20 @@ describe 'Claiming a Handle' do
   end
   it 'asks for proof' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @key = @handle.keys.create(content: minisign_public_key)
     visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.id, format: 'txt')
     visit handle_key_path(handle_id: @handle.name, id: @key.id)
-    fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
-    click_on 'Create Proof'
+
+    # server side
+    Proof.create!(
+      key: @key,
+      claim: File.read("spec/fixtures/claim.txt"),
+      content: File.read("spec/fixtures/claim.txt.minisig")
+    )
+    # fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
+
+
+    click_on 'I did this'
     expect(page).to have_content('Signature and comment signature verified')
   end
   it 'has a show route' do
@@ -48,7 +57,7 @@ end
 describe 'Claiming a handle that already has keys' do
   it 'should not allow randos to add keys' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @key = @handle.keys.create(content: minisign_public_key)
     @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
     visit handle_path(id: @handle.name)
     expect(page).to have_no_content('Add a public key')
