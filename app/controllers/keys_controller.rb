@@ -25,6 +25,6 @@ class KeysController < ApplicationController
 
   private
   def key_params
-    params.require(:key).permit(:content, :kind)
+    params.require(:key).permit(:content)
   end
 end

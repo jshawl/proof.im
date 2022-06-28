@@ -1,14 +1,8 @@
 Add a new key for <%= @handle.name %>:
-<br><br>
+
+<pre><code>minisign -G && cat minisign.pub</code></pre>
 
 <%= form_with model: [:handle, @key] do |f| %>
-  <%= f.radio_button :kind, 'minisign', checked: true %>
-  <%= f.label :kind, 'Minisign', :value => 'minisign' %>
-  <%= f.radio_button :kind, 'pgp' %>
-  <%= f.label :kind, 'PGP', :value => 'pgp' %>
-  <pre><code>minisign -G && cat minisign.pub</code></pre>
-
-  <br>
   <%= f.label :content %>
   <%= f.text_field :content %>
   <%= f.submit %>
