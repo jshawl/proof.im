@@ -9,14 +9,6 @@ class Key < ApplicationRecord
     Minisign::PublicKey.new(content).key_id
   end
 
-  def session_claim
-    "#{handle.name}@proof.im:#{SecureRandom.uuid}"
-  end
-
-  # def claim=(cl)
-  #   @claim = cl
-  # end
-
   def claim
     read_attribute(:claim) || "I am proving that I am #{handle.name} on proof.im with the following public key:
 #{content}\n"

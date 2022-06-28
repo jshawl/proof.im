@@ -10,9 +10,7 @@ class SessionsController < ApplicationController
   def create
     claim = params[:session][:claim] + "\n"
     proof = Proof.find_by_claim(claim)
-    unless proof && proof.verified?
-      return head 404
-    end
+    proof.verified?
     session['proven_claim'] = claim
     redirect_to new_session_path
   end
@@ -33,15 +31,5 @@ class SessionsController < ApplicationController
       content: signature
     )
     render json: {handle: handle, claim: claim, signature: signature}
-  end
-
-  def proof_by_claim
-    claim = Base64.decode64(request.headers['Authorization'].split("Basic ")[1])
-    proof = Proof.find_by_claim(claim)
-    unless proof && proof.verified?
-      return head 404
-    end
-    session['proven_claim'] = claim
-    render json: {claim: claim, signature: proof.content, verified: proof.verified?}
   end
 end

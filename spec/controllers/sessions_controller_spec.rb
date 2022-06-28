@@ -22,8 +22,4 @@ describe 'SessionsController', type: :request do
     expect(Proof.last.content).to eq(@signature)
     expect(Proof.last.verified?).to eq(true)
   end
-  it '404s when no proof exists for claim' do
-    get '/session/proof_by_claim', headers: @headers
-    expect(response.status).to eq(404)
-  end
 end
