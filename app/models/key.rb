@@ -19,6 +19,6 @@ class Key < ApplicationRecord
 
   def claim
     read_attribute(:claim) || "I am proving that I am #{handle.name} on proof.im with the following public key:
-#{content}"
+#{content}\n"
   end
 end

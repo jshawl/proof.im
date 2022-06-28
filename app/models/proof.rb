@@ -4,9 +4,9 @@ class Proof < ApplicationRecord
     p "using #{key.content}"
     klaim = claim || key.claim
     p "using claim: #{klaim}"
-    p "using content: #{content}"
+    p "using content: #{content.gsub(/\r/,'')}"
     pk = Minisign::PublicKey.new(key.content)
-    sig = Minisign::Signature.new(content)
+    sig = Minisign::Signature.new(content.gsub(/\r/,''))
     pk.verify(sig, klaim)
   end
   def verified?

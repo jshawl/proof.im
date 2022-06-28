@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   def new
     if params[:handle]
       @handle = Handle.find_by_name(params[:handle])
-      @session_secret = "abc-123"#SecureRandom.uuid
+      @session_secret = SecureRandom.uuid
       @claim = @handle.name + ":" + @session_secret
     end
   end

@@ -13,7 +13,7 @@
   <body>
     <nav>
       <% if current_handle %>
-        <%= link_to "Log Out", session_path, data: {turbo_method: :delete} %>
+        <%= link_to "Log Out #{current_handle}", session_path, data: {turbo_method: :delete} %>
       <% else %>
         <%= link_to "Log In", new_session_path %>
       <% end %>
