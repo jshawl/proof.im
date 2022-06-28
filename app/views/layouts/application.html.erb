@@ -12,20 +12,27 @@
 
   <body>
     <nav>
-      <% if current_handle %>
-        <%= link_to "Log Out #{current_handle}", session_path, data: {turbo_method: :delete} %>
-      <% else %>
-        <%= link_to "Log In", new_session_path %>
-      <% end %>
+      <h1>
+        <%= link_to "🔏 proof.im", root_path %>
+        /
+        <%= (link_to @handle.name, handle_path(@handle.name)) if @handle&.id %>
+      </h1>
+      <div>
+        <%= link_to "View Source", "https://github.com/jshawl/proof.im" %>
+        &middot;
+        <% if current_handle %>
+          <%= link_to "Log Out #{current_handle}", session_path, data: {turbo_method: :delete} %>
+        <% else %>
+          <%= link_to "Log In", new_session_path %>
+          &middot;
+          <%= link_to "Sign Up", new_registration_path %>
+        <% end %>
+      </div>
     </nav>
-    <h1>
-      <%= link_to "proof.im", root_path %>
-      /
-      <%= (link_to @handle.name, handle_path(@handle.name)) if @handle&.id %>
-    </h1>
+   
     <% flash.each do |type, msg| %>
       <div class='flash <%= type %>'>
-        <%= msg %>
+        <%= msg.html_safe %>
       </div>
     <% end %>
     <%= yield %>

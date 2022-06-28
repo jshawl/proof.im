@@ -35,6 +35,14 @@ h1, h2, h3 {
   font-weight: normal;
 }
 
+nav {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
 .flash.notice {
   border: 1px solid #BEE5EB;
   background: #D1ECF1;
