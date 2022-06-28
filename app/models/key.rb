@@ -6,6 +6,11 @@ class Key < ApplicationRecord
   scope :verified, -> {includes(:proof).where.not({proof: {id: nil}})}
 
   def key_id
-    Minisign::PublicKey.new(content).key_id
+    if kind == "minisign"
+      return Minisign::PublicKey.new(content).key_id
+    end
+    if kind == "pgp"
+      return "pgpIDhere"
+    end
   end
 end
