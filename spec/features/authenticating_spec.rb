@@ -24,4 +24,21 @@ describe 'Logging In' do
     click_on "Log Out jshawl"
     expect(page).to have_content("Log In")
   end
+
+  it 'gracefully fails on no session proof' do
+    visit new_session_path(handle: 'jshawl')
+    click_on "I did this"
+    expect(page).to have_content("Try again?")
+  end
+
+  it 'redirects if already logged in' do
+    allow_any_instance_of(ApplicationController).to receive(:current_handle).and_return("jshawl")
+    visit new_session_path
+    expect(page).to have_current_path(handle_path(id: 'jshawl'))
+  end
+
+  it 'prompts for signup if no handle exists' do
+    visit new_session_path(handle: SecureRandom.hex)
+    expect(page).to have_current_path(new_session_path)
+  end
 end

@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     if params[:handle]
       @handle = Handle.find_by_name(params[:handle])
       if @handle.nil?
-        flash[:notice] = "That handle hasn't been claimed yet. <a href='/'>Claim It</a>"
+        flash[:notice] = "That handle hasn't been claimed yet. <a href='/registrations/new'>Claim It</a>"
         return redirect_to new_session_path
       end
       @session_secret = SecureRandom.uuid

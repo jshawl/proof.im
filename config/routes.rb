@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root "handles#new"
+  root "handles#index"
   resources :proofs, only: [:create]
   resource :session do
     get "claim", as: :claim
