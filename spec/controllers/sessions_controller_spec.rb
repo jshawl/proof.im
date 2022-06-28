@@ -15,13 +15,9 @@ describe 'SessionsController', type: :request do
   it 'creates a proof of claim' do
     sig =  Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/session.txt.minisig"))
     params = {signature: sig}
-    
     expect {
       post '/session/proof', params: params, headers: @headers
     }.to change{ Proof.count }.by(1)
-
-    p Proof.last
-
     expect(Proof.last.claim).to eq(@claim + "\n")
     expect(Proof.last.content).to eq(@signature)
     expect(Proof.last.verified?).to eq(true)
