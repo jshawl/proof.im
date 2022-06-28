@@ -8,9 +8,4 @@ class Key < ApplicationRecord
   def key_id
     Minisign::PublicKey.new(content).key_id
   end
-
-  def claim
-    "I am proving that I am #{handle.name} on proof.im with the following public key:
-#{content}\n"
-  end
 end

@@ -3,10 +3,9 @@ class Proof < ApplicationRecord
 
   before_save :ensure_newline
   def verification
-    klaim = claim || key.claim
     pk = Minisign::PublicKey.new(key.content)
     sig = Minisign::Signature.new(content.gsub(/\r/,''))
-    pk.verify(sig, klaim)
+    pk.verify(sig, claim)
   end
   def verified?
     !!verification
