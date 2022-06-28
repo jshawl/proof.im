@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Claiming a Handle' do
   it 'redirects to new keys path' do
     expect {
-      visit root_path
+      visit new_registration_path
       fill_in 'handle[name]', with: 'jshawl'
       click_on 'Create Handle'
     }.to change{Handle.count}.by(1)
@@ -14,7 +14,7 @@ describe 'Claiming a Handle' do
     @key = @handle.keys.create(content: minisign_public_key)
     @proof = @key.create_proof(signature: File.read("spec/fixtures/claim.txt.minisig"))
 
-    visit root_path
+    visit new_registration_path
     fill_in 'handle[name]', with: 'jshawl'
     click_on 'Create Handle'
     expect(page).to have_content('This handle has already been claimed')
