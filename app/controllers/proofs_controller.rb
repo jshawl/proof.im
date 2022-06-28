@@ -12,13 +12,20 @@ class ProofsController < ApplicationController
     claim = params[:claim].read
     handle = params[:handle]
     @handle = Handle.find_by_name(handle)
-    @key = @handle.keys.first
-    Proof.create!(
-      key: @key,
-      claim: claim,
-      signature: signature
-    ).verified?
-
+    @handle.keys.each do |key|
+      proof = Proof.new(
+        key: key,
+        claim: claim,
+        signature: signature
+      )
+      begin
+        if proof.verified?
+          proof.save
+        end
+      rescue Exception => e
+        Rails.logger.error e
+      end
+    end
     head 200
   end
 end
