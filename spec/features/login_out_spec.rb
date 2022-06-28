@@ -14,7 +14,7 @@ describe 'Logging In' do
     Proof.create(
       key: @key,
       claim: File.read("spec/fixtures/session.txt"),
-      content: File.read("spec/fixtures/session.txt.minisig")
+      signature: File.read("spec/fixtures/session.txt.minisig")
     )
 
     # client side

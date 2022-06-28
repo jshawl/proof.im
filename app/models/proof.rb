@@ -3,7 +3,7 @@ class Proof < ApplicationRecord
 
   def verification
     pk = Minisign::PublicKey.new(key.content)
-    pk.verify(Minisign::Signature.new(content), claim)
+    pk.verify(Minisign::Signature.new(signature), claim)
   end
   def verified?
     !!verification

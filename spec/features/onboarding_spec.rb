@@ -12,7 +12,7 @@ describe 'Claiming a Handle' do
   it 'shows a profile if verified key' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: minisign_public_key)
-    @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
+    @proof = @key.create_proof(signature: File.read("spec/fixtures/claim.txt.minisig"))
 
     visit root_path
     fill_in 'handle[name]', with: 'jshawl'
@@ -39,10 +39,8 @@ describe 'Claiming a Handle' do
     Proof.create!(
       key: @key,
       claim: File.read("spec/fixtures/claim.txt"),
-      content: File.read("spec/fixtures/claim.txt.minisig")
+      signature: File.read("spec/fixtures/claim.txt.minisig")
     )
-    # fill_in 'proof[content]', with: File.read("spec/fixtures/claim.txt.minisig")
-
 
     click_on 'I did this'
     expect(page).to have_content('Signature and comment signature verified')
@@ -58,7 +56,7 @@ describe 'Claiming a handle that already has keys' do
   it 'should not allow randos to add keys' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: minisign_public_key)
-    @proof = @key.create_proof(content: File.read("spec/fixtures/claim.txt.minisig"))
+    @proof = @key.create_proof(signature: File.read("spec/fixtures/claim.txt.minisig"))
     visit handle_path(id: @handle.name)
     expect(page).to have_no_content('Add a public key')
   end

@@ -16,7 +16,7 @@ class ProofsController < ApplicationController
     Proof.create!(
       key: @key,
       claim: claim,
-      content: signature
+      signature: signature
     ).verified?
 
     head 200
