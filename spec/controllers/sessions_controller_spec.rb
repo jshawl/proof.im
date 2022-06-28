@@ -4,7 +4,7 @@ describe 'SessionsController', type: :request do
 
   before do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA')
+    @key = @handle.keys.create(content: minisign_public_key)
     @signature = File.read("spec/fixtures/session.txt.minisig")
     @claim = "jshawl:abc-123"
     @headers = {
