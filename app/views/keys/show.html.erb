@@ -23,7 +23,7 @@ minisign -S -m claim.txt</code></pre>
 <%= form_with model: [:handle, :key, @proof], url: handle_key_proof_path(@handle.name, @key, @proof) do |f| %>
   <%= f.label :content, "Signature:" %>
   <%= f.text_area :content %>
-  <%= f.hidden_field :claim, value: "I am proving that I am #{@handle.name} on proof.im with the following public key:\n#{@key.content}\n" %>
+  <%= f.hidden_field :claim, value: "I am proving that I am #{@handle.name} on proof.im with the following public key:\n#{@key.content}" %>
   <%= f.submit %>
 <% end %>
 
