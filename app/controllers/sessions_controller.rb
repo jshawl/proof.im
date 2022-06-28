@@ -21,10 +21,6 @@ class SessionsController < ApplicationController
     # destroy the Proof.find_by_claim
     redirect_to new_session_path
   end
-  def claim
-    header = request.headers["X-PROOFIM"] 
-    @handle = header.split("@")[0] 
-  end
   def proof
     signature = params[:signature].read
     claim = Base64.decode64(request.headers['Authorization'].split("Basic ")[1])
