@@ -8,8 +8,8 @@ class SessionsController < ApplicationController
     end
   end
   def create
-    claim = params[:session][:claim] + "\n"
-    proof = Proof.find_by_claim(claim)
+    claim = params[:session][:claim]
+    proof = Proof.find_by_claim(claim + "\n")
     proof.verified?
     session['proven_claim'] = claim
     redirect_to new_session_path
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
     @key = @handle.keys.first
     p = Proof.create(
       key: @key,
-      claim: claim + "\n",
+      claim: claim,
       content: signature
     )
     render json: {handle: handle, claim: claim, signature: signature}
