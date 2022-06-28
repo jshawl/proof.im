@@ -5,8 +5,11 @@
 <h2>Public Keys:</h2>
 
 <% if @handle.keys.verified.none? %>
-  <%= @handle.name %> doesn't have any verified public keys (yet.)
-<% end %>
-<% @handle.keys.verified.each do |key| %>
-  🗝 <small>(minisign)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %>
+  <%= @handle.name %> doesn't have any verified public keys (yet...)
+<% else %>
+  <ul>
+    <% @handle.keys.verified.each do |key| %>
+      <li>🗝 <small>(minisign)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %></li>
+    <% end %>
+  </ul>
 <% end %>
