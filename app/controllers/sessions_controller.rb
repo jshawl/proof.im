@@ -10,12 +10,16 @@ class SessionsController < ApplicationController
   def create
     claim = params[:session][:claim] + "\n"
     proof = Proof.find_by_claim(claim)
-    raise proof
     unless proof && proof.verified?
       return head 404
     end
     session['proven_claim'] = claim
-    raise session
+    redirect_to new_session_path
+  end
+  def destroy
+    session.clear
+    # destroy the Proof.find_by_claim
+    redirect_to new_session_path
   end
   def claim
     header = request.headers["X-PROOFIM"] 
