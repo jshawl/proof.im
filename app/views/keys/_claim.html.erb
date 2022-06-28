@@ -1,2 +1,1 @@
-I am proving that I am <%= @handle %> on proof.im with the following public key:
-<%= @key.content %>
+<%= handle_key_claim(@handle.name, @key.content) %>
