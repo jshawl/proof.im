@@ -7,6 +7,9 @@ class HandlesController < ApplicationController
   end
   def show
     @handle = Handle.find_by_name(params[:id])
+    if @handle.nil?
+      raise ActionController::RoutingError.new('not found')
+    end
   end
   private
   def handle_params
