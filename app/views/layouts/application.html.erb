@@ -9,7 +9,6 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
     <nav>
       <h1>
@@ -18,9 +17,11 @@
         <%= (link_to @handle.name, handle_path(@handle.name)) if @handle&.id %>
       </h1>
       <div>
-        <%= link_to "View Source", "https://github.com/jshawl/proof.im" %>
+        <%= link_to "View Source", "https://github.com/jshawl/proof.im", target: "_blank" %>
         &middot;
         <% if current_handle %>
+          <%= link_to "Profile", handle_path(id: current_handle) %>
+          &middot;
           <%= link_to "Log Out #{current_handle}", session_path, data: {turbo_method: :delete} %>
         <% else %>
           <%= link_to "Log In", new_session_path %>

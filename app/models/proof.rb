@@ -8,7 +8,9 @@ class Proof < ApplicationRecord
     else
       pk = SSHData::PublicKey.parse_openssh(key.content)
       sig = SSHData::Signature.parse_pem(signature)
-      pk.fingerprint == sig.public_key.fingerprint && sig.verify(claim)
+      if pk.fingerprint == sig.public_key.fingerprint && sig.verify(claim)
+        "Signature and key fingerprint verified"
+      end
     end
   end
   def verified?

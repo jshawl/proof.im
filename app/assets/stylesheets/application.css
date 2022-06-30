@@ -24,6 +24,8 @@
   padding: .5em;
   border-radius: 3px;
   border: 1px solid #ccc;
+  overflow: scroll;
+  scrollbar-width: none;
  }
 
 body {

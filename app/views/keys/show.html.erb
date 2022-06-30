@@ -1,13 +1,13 @@
 
 
 <h2>Public Key ID: <code><%= @key.key_id %></code></h2>
-<pre><code><%= @key.content %></code></pre>
-
-<br><small><time><%= @key.created_at %></time></small>
-
+<pre style='white-space: pre-wrap;word-wrap: break-word'><code><%= @key.content %></code></pre>
+<%= link_to "curl/raw", handle_key_path(handle_id: @handle.name, id: @key.id, format: 'txt') %>
 <% if @key.proof.persisted? %>
-  This key has been verified!
-  <%= link_to "View proof", handle_key_proof_path(handle_id: @handle.name, key_id: @key.id) %>
+<br>
+  <p>This key has been verified!
+    <%= link_to "View proof", handle_key_proof_path(handle_id: @handle.name, key_id: @key.id) %>
+  </p>
 <% else %>
 
 <h3>Prove it!</h3>
