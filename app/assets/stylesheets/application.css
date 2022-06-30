@@ -43,6 +43,7 @@ nav {
   align-items: center;
   margin-bottom: 1em;
   padding: 1em 2em;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -60,6 +61,14 @@ section {
 nav h1 {
   margin: 0;
   font-size: 1rem;
+}
+@media all and (max-width: 40em){
+  nav, section {
+    padding: .5em 1em;
+  }
+  nav h1 {
+    margin-bottom: 1em;
+  }
 }
 
 .flash.notice {
