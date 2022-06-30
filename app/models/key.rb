@@ -8,7 +8,11 @@ class Key < ApplicationRecord
   scope :verified, -> {includes(:proof).where.not({proof: {id: nil}})}
 
   def key_id
-    Minisign::PublicKey.new(content).key_id
+    if kind&.match(/ssh/)
+      SSHData::PublicKey.parse_openssh(content).fingerprint
+    else
+      Minisign::PublicKey.new(content).key_id
+    end
   end
 
   private

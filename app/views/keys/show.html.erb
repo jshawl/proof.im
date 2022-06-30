@@ -15,10 +15,19 @@
 <p>To prove ownership of this key, sign the claim:</p>
 
 <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt
-minisign -Sm /tmp/claim.txt</code></pre>
+<% if @key.kind == "minisign" %>
+minisign -Sm /tmp/claim.txt
+<% else %>
+ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
+<% end %>
+</code></pre>
 
 <p>and upload the signature:</p>
-<pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" -F "handle=<%= @handle.name %>" <%= proofs_url %></code></pre>
 
+<% if @key.kind == "minisign" %>
+<pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" -F "handle=<%= @handle.name %>" <%= proofs_url %></code></pre>
+<% else %>
+<pre><code>curl -F "signature=@/tmp/claim.txt.sig" -F "claim=@/tmp/claim.txt" -F "handle=<%= @handle.name %>" <%= proofs_url %></code></pre>
+<% end %>
 <%= link_to "I did this", handle_key_proof_path(@handle.name, @key, @proof) %>
 <% end %>
