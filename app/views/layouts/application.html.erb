@@ -30,6 +30,8 @@
         <% end %>
       </div>
     </nav>
+
+    <section>
    
     <% flash.each do |type, msg| %>
       <div class='flash <%= type %>'>
@@ -37,5 +39,6 @@
       </div>
     <% end %>
     <%= yield %>
+    </section>
   </body>
 </html>

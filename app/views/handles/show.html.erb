@@ -9,7 +9,7 @@
 <% else %>
   <ul>
     <% @handle.keys.verified.each do |key| %>
-      <li>🗝 <small>(<%= key.kind %>)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %></li>
+      <li>🔑 <small>(<%= key.kind %>)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %></li>
     <% end %>
   </ul>
 <% end %>

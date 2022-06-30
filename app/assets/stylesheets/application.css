@@ -30,7 +30,6 @@
 
 body {
   font-family: sans-serif;
-  padding: 1em;
 }
 
 h1, h2, h3 {
@@ -42,7 +41,25 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  padding: 1em 2em;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+section {
+  padding: 1em 2em;
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1rem;
 }
 
 .flash.notice {
