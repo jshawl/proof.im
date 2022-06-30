@@ -218,6 +218,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    ssh_data (1.3.0)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     strscan (3.0.3)
@@ -270,6 +271,7 @@ DEPENDENCIES
   selenium-webdriver
   simplecov
   sprockets-rails
+  ssh_data (~> 1.3.0)
   stimulus-rails
   turbo-rails
   tzinfo-data
