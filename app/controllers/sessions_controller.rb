@@ -27,8 +27,9 @@ class SessionsController < ApplicationController
     redirect_to handle_path(id: current_handle)
   end
   def destroy
+    
+    session_proof.destroy
     session.clear
-    # destroy the Proof.find_by_claim
     redirect_to new_session_path
   end
 end
