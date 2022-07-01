@@ -21,7 +21,10 @@ describe 'Logging In' do
     click_on "I did this"
     expect(page).to have_content("Log Out jshawl")
 
-    click_on "Log Out jshawl"
+    expect{
+      click_on "Log Out jshawl"
+    }.to change{Proof.count}.by(-1)
+
     expect(page).to have_content("Log In")
   end
 
