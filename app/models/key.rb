@@ -1,11 +1,11 @@
 class Key < ApplicationRecord
   belongs_to :handle
-  has_one :proof
+  has_many :proofs
   validates :content, presence: true
 
   before_save :set_kind
 
-  scope :verified, -> {includes(:proof).where.not({proof: {id: nil}})}
+  scope :verified, -> {includes(:proofs).where.not({proofs: {id: nil}})}
 
   def key_id
     if kind&.match(/ssh/)
