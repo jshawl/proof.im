@@ -1,5 +1,6 @@
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
+  enum kind: [:key, :session, :identity]
 
   def verification
     if key.kind == "minisign"

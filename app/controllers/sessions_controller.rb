@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
     proof = Proof.find_by_claim(claim + "\n")
     begin
       proof.verified?
+      proof.update(kind: "session")
     rescue
       flash[:notice] = 'No proof of that claim exists. Try again?'
       return redirect_back(fallback_location: new_session_path)
@@ -27,7 +28,6 @@ class SessionsController < ApplicationController
     redirect_to handle_path(id: current_handle)
   end
   def destroy
-    
     session_proof.destroy
     session.clear
     redirect_to new_session_path

@@ -15,8 +15,7 @@ class KeysController < ApplicationController
   def show
     @handle = Handle.find_by_name(params[:handle_id])
     @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:id])
-    # TODO model method for #key_proof (not just the first one)
-    @proof = @key.proofs.first || @key.proofs.new
+    @proof = @key.proofs.key.first || @key.proofs.new
   end
 
   def claim
