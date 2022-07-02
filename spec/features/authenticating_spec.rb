@@ -20,6 +20,7 @@ describe 'Logging In' do
     # client side
     click_on "I did this"
     expect(page).to have_content("Log Out jshawl")
+    expect(Proof.last.kind).to eq("session")
 
     expect{
       click_on "Log Out jshawl"

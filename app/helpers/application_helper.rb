@@ -4,7 +4,7 @@ module ApplicationHelper
     session['proven_claim'].split(":")[0]
   end
   def session_proof
-    Proof.find_by_claim(session['proven_claim']+"\n")
+    Proof.session.find_by_claim(session['proven_claim']+"\n")
   end
 
   def handle_key_claim(handle, key)
