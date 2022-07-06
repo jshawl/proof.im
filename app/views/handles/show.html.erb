@@ -17,3 +17,9 @@
     <% end %>
   </ul>
 <% end %>
+
+<h2>Public Identities:</h2>
+
+<% if current_handle %>
+  <%= link_to "Add a public identity", new_handle_identity_path(handle_id: @handle.name) %>
+<% end %>

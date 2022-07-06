@@ -1,0 +1,47 @@
+<h2>New Identity</h2>
+
+<% if params[:username] %>
+<h2>Prove it!</h2>
+
+<p>To prove ownership of this username on Hacker News, sign the claim:</p>
+
+
+
+<pre><code>curl <%= claim_handle_identities_url(kind: 2, username: 'jshawl', format: 'json') %> > /tmp/claim.txt
+
+# minisign
+minisign -Sm /tmp/claim.txt
+
+# SSH
+ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
+</code></pre>
+<h3>Upload</h3>
+<pre><code># minisign
+curl -F "signature=@/tmp/claim.txt.minisig" \
+     -F "claim=@/tmp/claim.txt" \
+     -F "handle=<%= @handle.name%>" \
+     <%= proofs_url %>
+
+# SSH
+curl -F "signature=@/tmp/claim.txt.sig" \
+     -F "claim=@/tmp/claim.txt" \
+     -F "handle=<%= @handle.name%>" \
+     <%= proofs_url %>     
+</code></pre>
+
+<%= form_tag session_path do %>
+    <%= hidden_field :session, :claim, value: @claim %>
+    <%= submit_tag :"I did this" %>
+<% end %>
+
+<% else %>
+
+<%= form_tag new_handle_identity_path(handle_id: params[:handle_id]), method: :GET do %>
+  <%= select_tag :kind, options_for_select(Proof.identity_kinds) %>
+  <br>
+  <%= label_tag :username %>
+  <%= text_field_tag :username, params[:handle_id] %>
+  <%= submit_tag %>
+<% end %>
+
+<% end %>

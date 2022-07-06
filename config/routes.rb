@@ -16,5 +16,8 @@ Rails.application.routes.draw do
       post "proof", as: :proof
       resource :proof, only: [:create, :show]
     end
+    resources :identities do
+      get :claim, on: :collection
+    end
   end
 end

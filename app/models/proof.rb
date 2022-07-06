@@ -1,6 +1,6 @@
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
-  enum kind: [:key, :session, :identity]
+  enum kind: [:key, :session, :hn_identity]
 
   def verification
     if key.kind == "minisign"
@@ -16,5 +16,19 @@ class Proof < ApplicationRecord
   end
   def verified?
     !!verification
+  end
+
+  def self.human_name_for_kind(kind)
+    {
+      hn_identity: 'Hacker News'
+    }[kind.to_sym]
+  end
+
+  def self.identity_kinds
+    self.kinds.select do |key, value|
+      key.match /identity/
+    end.transform_keys do |key|
+      human_name_for_kind(key)
+    end
   end
 end
