@@ -9,7 +9,7 @@ class Key < ApplicationRecord
 
   def key_id
     if kind&.match(/ssh/)
-      SSHData::PublicKey.parse_openssh(content).fingerprint
+      SSHData::PublicKey.parse_openssh(content).fingerprint(md5: true)
     else
       Minisign::PublicKey.new(content).key_id
     end
