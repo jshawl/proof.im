@@ -16,14 +16,15 @@
 
  html, body {
   margin: 0;
+  color: #333;
  }
 
  pre{
   display: block;
-  background: #ebebeb;
+  background: #fcfcfc;
   padding: .5em;
   border-radius: 3px;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   overflow: scroll;
   scrollbar-width: none;
  }
@@ -42,8 +43,9 @@ nav {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1em;
-  padding: 1em 2em;
+  padding: 1.5em 2em;
   flex-wrap: wrap;
+  font-size:.9rem;
 }
 
 nav a {
@@ -60,7 +62,7 @@ section {
 
 nav h1 {
   margin: 0;
-  font-size: 1rem;
+  font-size: .9rem;
 }
 @media all and (max-width: 40em){
   nav, section {
