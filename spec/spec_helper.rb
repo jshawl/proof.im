@@ -20,8 +20,9 @@ end
 require 'webmock/rspec'
 WebMock.disable_net_connect!
 
-def minisign_public_key
-  'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+module KEYS
+  MINISIGN = 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+  RSA = File.read("spec/fixtures/id_rsa.pub")
 end
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Logging In' do
   before do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
   end
   it 'logs in and out' do
     visit new_session_path

@@ -11,7 +11,7 @@ describe 'Claiming a Handle' do
   end
   it 'shows a profile if verified key' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
     @proof = @key.proofs.create(signature: File.read("spec/fixtures/claim.txt.minisig"))
 
     visit new_registration_path
@@ -23,7 +23,7 @@ describe 'Claiming a Handle' do
     @handle = Handle.create(name: 'jshawl')
     expect{
       visit new_handle_key_path(handle_id: 'jshawl')
-      fill_in 'key[content]', with: minisign_public_key
+      fill_in 'key[content]', with: KEYS::MINISIGN
       click_on 'Create Key'
     }.to change {Key.count}.by(1)
     
@@ -31,7 +31,7 @@ describe 'Claiming a Handle' do
   end
   it 'asks for proof' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
     visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.id, format: 'txt')
     visit handle_key_path(handle_id: @handle.name, id: @key.id)
 
@@ -55,7 +55,7 @@ end
 describe 'Claiming a handle that already has keys' do
   it 'should not allow randos to add keys' do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
     @proof = @key.proofs.create(signature: File.read("spec/fixtures/claim.txt.minisig"))
     visit handle_path(id: @handle.name)
     expect(page).to have_no_content('Add a public key')

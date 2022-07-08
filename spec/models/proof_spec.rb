@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Proof' do
   before do
     @handle = Handle.create(name: "jshawl")
-    @key = @handle.keys.create(content: File.read("spec/fixtures/id_rsa.pub"))
+    @key = @handle.keys.create(content: KEYS::RSA)
   end
   it 'supports ssh keys' do
     @proof = @key.proofs.create(

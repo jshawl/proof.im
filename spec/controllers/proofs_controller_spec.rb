@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Proofs controller', type: :request do
   before do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
   end
   it 'creates proofs' do
     signature =  Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/session.txt.minisig"))
@@ -14,7 +14,7 @@ describe 'Proofs controller', type: :request do
     }
   end
   it 'creates proof of identity' do
-    @key = @handle.keys.create(content: File.read("spec/fixtures/id_rsa.pub"))
+    @key = @handle.keys.create(content: KEYS::RSA)
     stub_request(:get, "https://news.ycombinator.com/user?id=jshawl").
       to_return(status: 200, body: "Here's some proof: https://proof.im/jshawl/on-hn")
     signature =  Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/identity.txt.sig"))
@@ -29,7 +29,7 @@ describe 'Proofs controller', type: :request do
     expect(Proof.last.verified?).to be(true)
   end
   it 'shows proof of identity' do
-    @key = @handle.keys.create(content: File.read("spec/fixtures/id_rsa.pub"))
+    @key = @handle.keys.create(content: KEYS::RSA)
     stub_request(:get, "https://news.ycombinator.com/user?id=jshawl").
       to_return(status: 200, body: "Here's some proof: https://proof.im/jshawl/on-hn")
     signature =  Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/identity.txt.sig"))
