@@ -16,6 +16,6 @@ describe 'Key' do
     @key = @handle.keys.create(content: minisign_public_key)
     expect(@key.key_id).to eq('1CDD78C864877915')
     @key = @handle.keys.create(content: File.read("spec/fixtures/id_rsa.pub"))
-    expect(@key.key_id).to eq('1mTk52X83F69zQ6c/Tu+71rTkqCG3/jO3sWi1pijHt4')
+    expect(@key.key_id).to eq('85:32:3a:0b:31:e3:9d:16:b0:83:85:f0:0f:28:26:50')
   end
 end
