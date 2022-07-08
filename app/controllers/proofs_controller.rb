@@ -37,7 +37,6 @@ class ProofsController < ApplicationController
           proof.save
         end
       rescue Exception => e
-        return render json: e, status: 400
         Rails.logger.error e
       end
     end
