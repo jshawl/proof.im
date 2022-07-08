@@ -8,10 +8,9 @@ describe 'Proofs controller', type: :request do
   it 'creates proofs' do
     signature =  Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/session.txt.minisig"))
     claim = Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/session.txt"))
-    post '/proofs', params: {
+    post '/jshawl/proofs', params: {
       signature: signature,
-      claim: claim,
-      handle: 'jshawl'
+      claim: claim
     }
   end
   it 'creates proof of identity' do

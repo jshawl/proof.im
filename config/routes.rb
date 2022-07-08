@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root "handles#index"
-  resources :proofs, only: [:create]
+  
   resource :session do
     get "claim", as: :claim
     post "proof", as: :proof
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post "/on-hn", to: 'proofs#create_identity', as: :hn
     get "/on-hn", to: 'proofs#show_identity'
     get "/on-hn/claim", to: 'proofs#claim', as: :identity_claim
+    resources :proofs, only: [:create]
     resources :keys do
       get "claim"
       post "proof", as: :proof
