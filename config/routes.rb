@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
   resource :registration
   resources :handles, path: "" do
+    post "/on-hn", to: 'proofs#create_identity', as: :hn
+    get "/on-hn", to: 'proofs#show_identity'
+    get "/on-hn/claim", to: 'proofs#claim', as: :identity_claim
     resources :keys do
       get "claim"
       post "proof", as: :proof

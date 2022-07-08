@@ -22,7 +22,10 @@ class Proof < ApplicationRecord
     !!verification
   end
   def public_claim_exists?
-    resp = Net::HTTP.get URI("https://news.ycombinator.com/user?id=#{username}")
+    url = URI("https://news.ycombinator.com/user?id=#{username}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.open_timeout = 3
+    resp = http.request_get(url.path)
     !!resp.match("https://proof.im/#{key.handle.name}/on-hn")
   end
 end

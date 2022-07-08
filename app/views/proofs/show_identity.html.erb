@@ -1,0 +1,21 @@
+
+
+
+<% if @proofs.empty? %>
+  <%= @handle.name %> has not proven their HN identity.
+  <% if current_handle == @handle.name %>
+  to do so, sign the claim:
+
+    <pre><code>
+    curl <%= handle_identity_claim_url(format: 'txt') %> > /tmp/claim.txt
+  
+    ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
+    
+    curl -F "signature=@/tmp/claim.txt.sig" \
+    -F "claim=@/tmp/claim.txt" \
+    <%= handle_on_hn_url(handle_id: @handle.name) %></code></pre>
+  <% end %>
+  
+<% else %>
+  
+<% end %>
