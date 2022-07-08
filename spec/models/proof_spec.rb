@@ -24,16 +24,17 @@ describe 'Proof' do
       @proof = @key.proofs.create(
         kind: :identity,
         claim: File.read("spec/fixtures/identity.txt"),
-        signature: File.read("spec/fixtures/identity.txt.sig")
+        signature: File.read("spec/fixtures/identity.txt.sig"),
+        username: 'jshawl'
       )
     end
     it 'proves identities when the public claim is present' do
-      stub_request(:get, "https://example.com/").
+      stub_request(:get, "https://news.ycombinator.com/user?id=jshawl").
         to_return(status: 200, body: "Here's some proof: https://proof.im/jshawl/on-hn")
       expect(@proof.verified?).to be(true)
     end
     it 'is not proven when the public claim is absent' do
-      stub_request(:get, "https://example.com/").
+      stub_request(:get, "https://news.ycombinator.com/user?id=jshawl").
           to_return(status: 200, body: "Here's some proof: https://example.com")
       expect(@proof.verified?).to be(false)
     end
