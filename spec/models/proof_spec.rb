@@ -30,7 +30,7 @@ describe 'Proof' do
     end
     it 'proves identities when the public claim is present' do
       stub_request(:get, "https://news.ycombinator.com/user?id=jshawl").
-        to_return(status: 200, body: "Here's some proof: https://proof.im/jshawl/on-hn")
+        to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-hn")
       expect(@proof.verified?).to be(true)
     end
     it 'is not proven when the public claim is absent' do

@@ -14,12 +14,12 @@ class ProofsController < ApplicationController
   def show_identity
     @handle = Handle.find_by_name(params[:handle_id])
     key_ids = @handle.keys.pluck(:id)
-    @proofs = Proof.where('key_id in (?)', key_ids).where(kind: 'identity')
+    @proofs = Proof.where('key_id in (?) AND kind = 2', key_ids)
   end
 
   def create_identity
     username = params[:handle_id]
-    create_proof_if_verified(username,"identity")
+    create_proof_if_verified(username,"identity", "https://news.ycombinator.com/user?id=#{username}")
     head 200
   end
 
@@ -31,7 +31,7 @@ class ProofsController < ApplicationController
 
   private
 
-  def create_proof_if_verified(username,kind)
+  def create_proof_if_verified(username,kind,public_claim_url = nil)
     handle = params[:handle_id]
     signature = params[:signature].read
     claim = params[:claim].read
@@ -42,10 +42,11 @@ class ProofsController < ApplicationController
         claim: claim,
         signature: signature,
         username: username,
-        kind: kind
+        kind: kind,
+        public_claim_url: public_claim_url
       )
       begin
-        if proof.verified?
+        if proof.valid_signature?
           proof.save
         end
       rescue Exception => e
