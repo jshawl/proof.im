@@ -1,3 +1,4 @@
+require 'net/http'
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
   enum kind: [:key, :session, :identity]
@@ -15,6 +16,14 @@ class Proof < ApplicationRecord
     end
   end
   def verified?
+    if kind == "identity"
+      return public_claim_exists? && !!verification
+    end
     !!verification
+  end
+  def public_claim_exists?
+    resp = Net::HTTP.get URI('https://example.com')
+    !!resp.match("https://proof.im/jshawl/on-hn")
+    # return true
   end
 end

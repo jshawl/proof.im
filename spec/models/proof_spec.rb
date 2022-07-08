@@ -19,4 +19,23 @@ describe 'Proof' do
     )
     expect(@proof.verified?).to be(false)
   end
+  describe 'of identity' do
+    before do
+      @proof = @key.proofs.create(
+        kind: :identity,
+        claim: File.read("spec/fixtures/identity.txt"),
+        signature: File.read("spec/fixtures/identity.txt.sig")
+      )
+    end
+    it 'proves identities when the public claim is present' do
+      stub_request(:get, "https://example.com/").
+        to_return(status: 200, body: "Here's some proof: https://proof.im/jshawl/on-hn")
+      expect(@proof.verified?).to be(true)
+    end
+    it 'is not proven when the public claim is absent' do
+      stub_request(:get, "https://example.com/").
+          to_return(status: 200, body: "Here's some proof: https://example.com")
+      expect(@proof.verified?).to be(false)
+    end
+  end
 end
