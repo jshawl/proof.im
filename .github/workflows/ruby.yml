@@ -49,6 +49,8 @@ jobs:
         bundle exec rails db:migrate
         bundle exec rails assets:precompile
         bundle exec rake
+    - name: Lint
+      run: bundle exec rubocop
     - name: Archive code coverage results
       uses: actions/upload-artifact@v2
       with:

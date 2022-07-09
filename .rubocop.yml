@@ -1,0 +1,10 @@
+Metrics/BlockLength:
+  Enabled: false
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "bin/bundle"
+    - "vendor/bundle/**/*"
+    - "db/*"
+Style/Documentation:
+  Enabled: false

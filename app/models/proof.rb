@@ -1,31 +1,41 @@
+# frozen_string_literal: true
+
 require 'net/http'
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
-  enum kind: [:key, :session, :identity]
+  enum kind: %i[key session identity]
 
   def verification
-    if key.kind == "minisign"
-      pk = Minisign::PublicKey.new(key.content)
-      pk.verify(Minisign::Signature.new(signature), claim)
+    if key.kind == 'minisign'
+      minisign_verification
     else
-      pk = SSHData::PublicKey.parse_openssh(key.content)
-      sig = SSHData::Signature.parse_pem(signature)
-      if pk.fingerprint == sig.public_key.fingerprint && sig.verify(claim)
-        "Signature and key fingerprint verified"
-      end
+      ssh_verification
     end
   end
+
+  def ssh_verification
+    pk = SSHData::PublicKey.parse_openssh(key.content)
+    sig = SSHData::Signature.parse_pem(signature)
+    'Signature and key fingerprint verified' if pk.fingerprint == sig.public_key.fingerprint && sig.verify(claim)
+  end
+
+  def minisign_verification
+    pk = Minisign::PublicKey.new(key.content)
+    pk.verify(Minisign::Signature.new(signature), claim)
+  end
+
   def valid_signature?
     !!verification
   end
+
   def verified?
-    if kind == "identity"
-      return public_claim_exists? && valid_signature?
-    end
+    return public_claim_exists? && valid_signature? if kind == 'identity'
+
     valid_signature?
   end
+
   def public_claim_exists?
-    # todo handle timeout
+    # TODO: handle timeout
     # todo cache response
     resp = Net::HTTP.get(URI("https://news.ycombinator.com/user?id=#{username}"))
     !!resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-hn")

@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Key' do
   before do
-    @handle = Handle.create(name: "jshawl")
+    @handle = Handle.create(name: 'jshawl')
   end
   it 'sets the kind for ssh keys' do
     @key = @handle.keys.create(content: KEYS::RSA)
-    expect(@key.kind).to eq("ssh-rsa")
+    expect(@key.kind).to eq('ssh-rsa')
   end
   it 'sets the kind for minisign keys' do
     @key = @handle.keys.create(content: KEYS::MINISIGN)
-    expect(@key.kind).to eq("minisign")
+    expect(@key.kind).to eq('minisign')
   end
   it 'has a key id' do
     @key = @handle.keys.create(content: KEYS::MINISIGN)
