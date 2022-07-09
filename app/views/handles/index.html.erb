@@ -7,14 +7,32 @@ login flow:</p>
 <hr>
 <h2>Get Started</h2>
 
-<h3>1. Install <code>minisign</code></h3>
+<div class='tabs'>
+  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
+  <label for='ssh-rsa'>ssh-rsa</label>
+  <input type='radio' id='minisign' value='minisign' name='unique' checked>
+  <label for='minisign'>minisign</label>
+  <div class='tabs-content'>
+    <div id='ssh-rsa'>
+      <h3>1. Generate a private/public key-pair</h3>
+      <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
+      <h3>2. Claim a handle and upload a public key</h3>
+    </div>
+    <div id='minisign'>
+      <h3>1. Install <code>minisign</code></h3>
 
-Visit <a href='https://jedisct1.github.io/minisign/'>https://jedisct1.github.io/minisign/</a> and download the `minisign` executable.
+      Visit <a href='https://jedisct1.github.io/minisign/'>https://jedisct1.github.io/minisign/</a> and download the `minisign` executable.
+      
+      <h3>2. Generate a private/public key-pair</h3>
+      
+      <pre><code>minisign -G</code></pre>
+      <h3>3. Claim a handle and upload a public key</h3>
+    </div>
+  </div>
+</div>
 
-<h3>2. Generate a private/public key-pair</h3>
+<%= link_to "claim a handle", new_registration_path, class: 'btn' %> 
 
-<pre><code>minisign -G</code></pre>
+<p>You can be anyone you want to be! You'll just need to prove ownership of a public key by providing a signature.</p>
 
-<h3>3. Claim a handle and upload a public key</h3>
-
-You can be anyone you want to be! You'll just need to prove ownership of a public key by providing a signature.
+<hr>

@@ -10,24 +10,35 @@
   </p>
 <% else %>
 
+<hr>
+
 <h3>Prove it!</h3>
 
-<p>To prove ownership of this key, sign the claim:</p>
+<div class='tabs'>
+  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
+  <label for='ssh-rsa'>ssh-rsa</label>
+  <input type='radio' id='minisign' value='minisign' name='unique' checked>
+  <label for='minisign'>minisign</label>
+  <div class='tabs-content'>
+    <div id='ssh-rsa'>
+      <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
+      <pre><code>ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt</code></pre>
+      <p>and upload the signature:</p>
+      <pre><code>curl -F "signature=@/tmp/claim.txt.sig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
+    </div>
+    <div id='minisign'>
+      <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
+      <pre><code>minisign -Sm /tmp/claim.txt</code></pre>
+      <p>and upload the signature:</p>
+      <pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
+    </div>
+  </div>
+</div>
 
-<pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt
+
+
 <% if @key.kind == "minisign" %>
-minisign -Sm /tmp/claim.txt
 <% else %>
-ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
-<% end %>
-</code></pre>
-
-<p>and upload the signature:</p>
-
-<% if @key.kind == "minisign" %>
-<pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
-<% else %>
-<pre><code>curl -F "signature=@/tmp/claim.txt.sig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
 <% end %>
 <%= link_to "I did this", handle_key_proof_path(@handle.name, @key, @proof) %>
 <% end %>

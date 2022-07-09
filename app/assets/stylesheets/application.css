@@ -17,16 +17,20 @@
  html, body {
   margin: 0;
   color: #333;
+  line-height: 1.5;
  }
 
  pre{
   display: block;
-  background: #fcfcfc;
-  padding: .5em;
-  border-radius: 3px;
-  border: 1px solid #aaa;
+  background: #121126;
+  padding: 1em;
+  color: #fff;
+  border-radius: 5px;
   overflow: scroll;
   scrollbar-width: none;
+  font-size: 1.1rem;
+
+  font-family: Monaco, monospace;
  }
 
 body {
@@ -79,4 +83,46 @@ nav h1 {
   color: #0B5460;
   padding: 1em;
   border-radius: 5px;
+}
+
+.tabs label {
+  padding: .5em 1em;
+  display: inline-block;
+  cursor: pointer;
+  font-size: .8rem;
+}
+.tabs input[type="radio"]{
+  display: none;
+}
+.tabs-content {
+  border-top: 1px solid #ebebeb;
+}
+.tabs-content > div {
+  display: none;
+}
+input:nth-of-type(1):checked ~ .tabs-content > div:nth-of-type(1),
+input:nth-of-type(2):checked ~ .tabs-content > div:nth-of-type(2){
+  display: block;
+}
+input:checked + label {
+  border-bottom: 3px solid #551A8B;
+  margin-bottom: -2px;
+}
+hr {
+  border: none;
+  margin: 3em 0;
+  border-bottom: 1px solid #ebebeb;
+}
+a.btn {
+  display: inline-block;
+  padding: .5em 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 2px 2px 2px #f0f0f0;
+  font-size: .9rem;
+}
+a.btn:hover {
+  background: #f9f9f9;
 }
