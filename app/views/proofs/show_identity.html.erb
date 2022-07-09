@@ -1,0 +1,32 @@
+<% if @proofs.empty? %>
+  <%= @handle.name %> has not proven their HN identity.
+  <% if current_handle == @handle.name %>
+  to do so, sign the claim:
+
+    <pre><code>
+    curl <%= handle_identity_claim_url(format: 'txt') %> > /tmp/claim.txt
+  
+    ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
+    
+    curl -F "signature=@/tmp/claim.txt.sig" \
+    -F "claim=@/tmp/claim.txt" \
+    <%= handle_on_hn_url(handle_id: @handle.name) %></code></pre>
+  <% end %>
+  
+<% else %>
+
+  <% @proofs.each do |proof| %>
+    <% if proof.verified? %>
+      ✅ <small>proof created at <%= proof.created_at %></small>
+      <h2>The Claim</h2>
+      <pre><code><%= proof.claim %></code></pre>
+      was signed with <%= proof.key.handle.name %>'s verified key 🔑 <small>(<%= proof.key.kind %>)</small> <%= link_to proof.key.key_id, handle_key_path(id: proof.key) %>
+      <h2>The Signature</h2>
+      <pre><code><%= proof.signature %></code></pre>
+
+      and a link to this proof was publicly posted at <%= link_to proof.public_claim_url, proof.public_claim_url %>
+    <% else %>
+      ❌ a link to this proof does not appear at <%= link_to proof.public_claim_url, proof.public_claim_url %>
+    <% end %>
+  <% end %>
+<% end %>

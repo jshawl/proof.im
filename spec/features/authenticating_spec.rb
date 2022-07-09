@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Logging In' do
   before do
     @handle = Handle.create(name: 'jshawl')
-    @key = @handle.keys.create(content: minisign_public_key)
+    @key = @handle.keys.create(content: KEYS::MINISIGN)
   end
   it 'logs in and out' do
     visit new_session_path
@@ -13,8 +13,8 @@ describe 'Logging In' do
     # server side
     Proof.create(
       key: @key,
-      claim: File.read("spec/fixtures/session.txt"),
-      signature: File.read("spec/fixtures/session.txt.minisig")
+      claim: fixture("session.txt"),
+      signature: fixture("session.txt.minisig")
     )
 
     # client side

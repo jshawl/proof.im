@@ -1,3 +1,4 @@
+require 'net/http'
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
   enum kind: [:key, :session, :identity]
@@ -14,7 +15,19 @@ class Proof < ApplicationRecord
       end
     end
   end
-  def verified?
+  def valid_signature?
     !!verification
+  end
+  def verified?
+    if kind == "identity"
+      return public_claim_exists? && valid_signature?
+    end
+    valid_signature?
+  end
+  def public_claim_exists?
+    # todo handle timeout
+    # todo cache response
+    resp = Net::HTTP.get(URI("https://news.ycombinator.com/user?id=#{username}"))
+    !!resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-hn")
   end
 end

@@ -17,12 +17,21 @@ SimpleCov.start do
   add_filter "spec"
 end
 
-def minisign_public_key
-  'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+require 'webmock/rspec'
+WebMock.disable_net_connect!
+
+module KEYS
+  MINISIGN = 'RWQVeYdkyHjdHNLkbGPUmaD1rn4Il43FUsIwos6raMWg0NC4AqGgejkA'
+  RSA = File.read("spec/fixtures/id_rsa.pub")
+end
+
+def fixture(path)
+  File.read("spec/fixtures/#{path}")
 end
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  config.formatter = :documentation
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
