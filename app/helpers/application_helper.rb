@@ -1,10 +1,14 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def current_handle
     return nil unless session['proven_claim']
-    session['proven_claim'].split(":")[0]
+
+    session['proven_claim'].split(':')[0]
   end
+
   def session_proof
-    Proof.session.find_by_claim(session['proven_claim']+"\n")
+    Proof.session.find_by_claim("#{session['proven_claim']}\n")
   end
 
   def handle_key_claim(handle, key)

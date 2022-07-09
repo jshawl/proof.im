@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Key < ApplicationRecord
   belongs_to :handle
   has_many :proofs
@@ -5,7 +7,7 @@ class Key < ApplicationRecord
 
   before_save :set_kind
 
-  scope :verified, -> {includes(:proofs).where.not({proofs: {id: nil}})}
+  scope :verified, -> { includes(:proofs).where.not({ proofs: { id: nil } }) }
 
   def key_id
     if kind&.match(/ssh/)
@@ -16,11 +18,12 @@ class Key < ApplicationRecord
   end
 
   private
+
   def set_kind
-    if self.content.match(/^ssh-/)
-      self.kind = self.content.split(" ")[0]
-    else
-      self.kind = 'minisign'
-    end
+    self.kind = if content.match(/^ssh-/)
+                  content.split[0]
+                else
+                  'minisign'
+                end
   end
 end

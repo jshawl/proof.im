@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Logging In' do
@@ -13,30 +15,30 @@ describe 'Logging In' do
     # server side
     Proof.create(
       key: @key,
-      claim: fixture("session.txt"),
-      signature: fixture("session.txt.minisig")
+      claim: fixture('session.txt'),
+      signature: fixture('session.txt.minisig')
     )
 
     # client side
-    click_on "I did this"
-    expect(page).to have_content("Log Out jshawl")
-    expect(Proof.last.kind).to eq("session")
+    click_on 'I did this'
+    expect(page).to have_content('Log Out jshawl')
+    expect(Proof.last.kind).to eq('session')
 
-    expect{
-      click_on "Log Out jshawl"
-    }.to change{Proof.count}.by(-1)
+    expect do
+      click_on 'Log Out jshawl'
+    end.to change { Proof.count }.by(-1)
 
-    expect(page).to have_content("Log In")
+    expect(page).to have_content('Log In')
   end
 
   it 'gracefully fails on no session proof' do
     visit new_session_path(handle: 'jshawl')
-    click_on "I did this"
-    expect(page).to have_content("Try again?")
+    click_on 'I did this'
+    expect(page).to have_content('Try again?')
   end
 
   it 'redirects if already logged in' do
-    allow_any_instance_of(ApplicationController).to receive(:current_handle).and_return("jshawl")
+    allow_any_instance_of(ApplicationController).to receive(:current_handle).and_return('jshawl')
     visit new_session_path
     expect(page).to have_current_path(handle_path(id: 'jshawl'))
   end
