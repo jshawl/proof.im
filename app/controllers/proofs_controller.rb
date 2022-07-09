@@ -1,18 +1,16 @@
 class ProofsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create, :create_identity]
+  before_action :find_handle
 
   def show
-    @handle = Handle.find_by_name(params[:handle_id])
     @key = @handle.keys.find(params[:key_id])
     @proof = @key.proofs.first
   end
 
   def claim
-    @handle = Handle.find_by_name(params[:handle_id])
   end
 
   def show_identity
-    @handle = Handle.find_by_name(params[:handle_id])
     key_ids = @handle.keys.pluck(:id)
     @proofs = Proof.where('key_id in (?) AND kind = 2', key_ids)
   end
@@ -31,11 +29,14 @@ class ProofsController < ApplicationController
 
   private
 
+  def find_handle
+    @handle = Handle.find_by_name(params[:handle_id])
+  end
+
   def create_proof_if_verified(username,kind,public_claim_url = nil)
-    handle = params[:handle_id]
     signature = params[:signature].read
     claim = params[:claim].read
-    @handle = Handle.find_by_name(handle)
+    
     @handle.keys.each do |key|
       proof = Proof.new(
         key: key,
