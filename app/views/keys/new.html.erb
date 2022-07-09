@@ -1,19 +1,25 @@
 Add a new key for <%= @handle.name %>:
 
-<pre><code># Generate a new private/public key pair
-minisign -G
-
-# Get the public key's contents
-cat minisign.pub
-
-# OR
-
-# Generate a new private/public key pair
-ssh-keygen -t rsa -b 4096
-
-# Get the public key's contents
-cat ~/.ssh/id_rsa.pub
-</code></pre>
+<div class='tabs'>
+  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
+  <label for='ssh-rsa'>ssh-rsa</label>
+  <input type='radio' id='minisign' value='minisign' name='unique' checked>
+  <label for='minisign'>minisign</label>
+  <div class='tabs-content'>
+    <div id='ssh-rsa'>
+      <h3>1. Generate a private/public key-pair</h3>
+      <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
+      <h3>2. Copy the public key</h3>
+      <pre><code>cat ~/.ssh/id_rsa.pub</code></pre>
+    </div>
+    <div id='minisign'>
+      <h3>1. Generate a private/public key-pair</h3>
+      <pre><code>minisign -G</code></pre>
+      <h3>2. Copy the public key</h3>
+      <pre><code>cat minisign.pub</code></pre>
+    </div>
+  </div>
+</div>
 
 <%= form_with model: [:handle, @key] do |f| %>
   <%= f.label :content %>
