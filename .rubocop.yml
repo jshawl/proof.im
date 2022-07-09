@@ -3,6 +3,7 @@ Metrics/BlockLength:
 AllCops:
   NewCops: enable
   Exclude:
-   - "bin/bundle"
+    - "bin/bundle"
+    - "vendor/bundle/**/*"
 Style/Documentation:
   Enabled: false
