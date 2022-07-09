@@ -26,6 +26,7 @@ class Proof < ApplicationRecord
   end
   def public_claim_exists?
     # todo handle timeout
+    # todo cache response
     resp = Net::HTTP.get(URI("https://news.ycombinator.com/user?id=#{username}"))
     !!resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-hn")
   end

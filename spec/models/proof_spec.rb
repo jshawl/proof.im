@@ -7,15 +7,15 @@ describe 'Proof' do
   end
   it 'supports ssh keys' do
     @proof = @key.proofs.create(
-      signature: File.read("spec/fixtures/content.txt.rsa.sig"),
-      claim: File.read("spec/fixtures/content.txt")
+      signature: fixture("content.txt.rsa.sig"),
+      claim: fixture("content.txt")
     )
     expect(@proof.verified?).to be(true)
   end
   it 'verifies matching ssh keys' do
     @proof = @key.proofs.create(
-      signature: File.read("spec/fixtures/content.txt.rogue.sig"),
-      claim: File.read("spec/fixtures/content.txt")
+      signature: fixture("content.txt.rogue.sig"),
+      claim: fixture("content.txt")
     )
     expect(@proof.verified?).to be(false)
   end
@@ -23,8 +23,8 @@ describe 'Proof' do
     before do
       @proof = @key.proofs.create(
         kind: :identity,
-        claim: File.read("spec/fixtures/identity.txt"),
-        signature: File.read("spec/fixtures/identity.txt.sig"),
+        claim: fixture("identity.txt"),
+        signature: fixture("identity.txt.sig"),
         username: 'jshawl'
       )
     end

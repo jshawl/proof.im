@@ -25,6 +25,10 @@ module KEYS
   RSA = File.read("spec/fixtures/id_rsa.pub")
 end
 
+def fixture(path)
+  File.read("spec/fixtures/#{path}")
+end
+
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.formatter = :documentation

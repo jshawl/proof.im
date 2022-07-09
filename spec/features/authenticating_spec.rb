@@ -13,8 +13,8 @@ describe 'Logging In' do
     # server side
     Proof.create(
       key: @key,
-      claim: File.read("spec/fixtures/session.txt"),
-      signature: File.read("spec/fixtures/session.txt.minisig")
+      claim: fixture("session.txt"),
+      signature: fixture("session.txt.minisig")
     )
 
     # client side
