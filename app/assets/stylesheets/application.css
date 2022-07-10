@@ -46,8 +46,20 @@ body {
   font-family: sans-serif;
 }
 
-h1, h2, h3 {
+h1 {
   font-weight: normal;
+}
+
+h2, h3 {
+  font-weight: lighter;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
 }
 
 nav {
@@ -61,6 +73,7 @@ nav {
 footer {
   border-top: 1px solid #ccc;
   display: flex;
+  margin-top: 1em;
 }
 
 footer svg {
@@ -102,6 +115,12 @@ nav h1 {
 @media all and (max-width: 40em){
   nav, section, footer {
     padding: .5em 1em;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.125rem;
   }
 }
 
