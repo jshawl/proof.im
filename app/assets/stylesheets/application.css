@@ -20,6 +20,16 @@
   line-height: 1.5;
  }
 
+ body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+ }
+
+ section{
+  flex: 1;
+ }
+
  pre{
   display: block;
   background: #121126;
@@ -29,7 +39,6 @@
   overflow: scroll;
   scrollbar-width: none;
   font-size: 1.1rem;
-
   font-family: Monaco, monospace;
  }
 
@@ -37,8 +46,20 @@ body {
   font-family: sans-serif;
 }
 
-h1, h2, h3 {
+h1 {
   font-weight: normal;
+}
+
+h2, h3 {
+  font-weight: lighter;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
 }
 
 nav {
@@ -47,6 +68,29 @@ nav {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1em;
+}
+
+footer {
+  border-top: 1px solid #ccc;
+  display: flex;
+  margin-top: 1em;
+}
+
+footer svg {
+  fill: #333;
+  margin-right: .5rem;
+}
+
+footer a:hover svg {
+  fill: #666;
+}
+
+footer a {
+  display: flex;
+  margin-right: 1rem;
+}
+
+nav, footer{
   padding: 1.5em 2em;
   flex-wrap: wrap;
   font-size:.9rem;
@@ -69,11 +113,14 @@ nav h1 {
   font-size: .9rem;
 }
 @media all and (max-width: 40em){
-  nav, section {
+  nav, section, footer {
     padding: .5em 1em;
   }
-  nav h1 {
-    margin-bottom: 1em;
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.125rem;
   }
 }
 
