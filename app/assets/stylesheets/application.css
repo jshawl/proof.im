@@ -20,6 +20,16 @@
   line-height: 1.5;
  }
 
+ body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+ }
+
+ section{
+  flex: 1;
+ }
+
  pre{
   display: block;
   background: #121126;
@@ -29,7 +39,6 @@
   overflow: scroll;
   scrollbar-width: none;
   font-size: 1.1rem;
-
   font-family: Monaco, monospace;
  }
 
@@ -43,13 +52,35 @@ h1, h2, h3 {
 
 nav {
   border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1em;
+}
+
+footer {
+  border-top: 1px solid #ccc;
+  display: flex;
+}
+
+footer svg {
+  fill: #333;
+  margin-right: .5rem;
+}
+footer a:hover svg {
+  fill: #666;
+}
+
+footer a {
+  display: flex;
+  margin-right: 1rem;
+}
+
+nav, footer{
   padding: 1.5em 2em;
   flex-wrap: wrap;
   font-size:.9rem;
+
 }
 
 nav a {
