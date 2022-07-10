@@ -52,10 +52,10 @@ h1, h2, h3 {
 
 nav {
   border-bottom: 1px solid #ccc;
-  margin-bottom: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1em;
 }
 
 footer {
@@ -67,6 +67,7 @@ footer svg {
   fill: #333;
   margin-right: .5rem;
 }
+
 footer a:hover svg {
   fill: #666;
 }
@@ -80,7 +81,6 @@ nav, footer{
   padding: 1.5em 2em;
   flex-wrap: wrap;
   font-size:.9rem;
-
 }
 
 nav a {
