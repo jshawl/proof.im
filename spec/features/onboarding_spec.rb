@@ -29,13 +29,13 @@ describe 'Claiming a Handle' do
       click_on 'Create Key'
     end.to change { Key.count }.by(1)
 
-    expect(page).to have_current_path("/jshawl/keys/#{@handle.keys.last.id}")
+    expect(page).to have_current_path("/jshawl/keys/#{@handle.keys.last.fingerprint}")
   end
   it 'asks for proof' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: KEYS::MINISIGN)
-    visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.id, format: 'txt')
-    visit handle_key_path(handle_id: @handle.name, id: @key.id)
+    visit handle_key_claim_path(handle_id: @handle.name, key_id: @key.fingerprint, format: 'txt')
+    visit handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
 
     # server side
     Proof.create!(

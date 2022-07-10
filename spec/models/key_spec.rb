@@ -14,10 +14,10 @@ describe 'Key' do
     @key = @handle.keys.create(content: KEYS::MINISIGN)
     expect(@key.kind).to eq('minisign')
   end
-  it 'has a key id' do
+  it 'has a key fingerprint' do
     @key = @handle.keys.create(content: KEYS::MINISIGN)
-    expect(@key.key_id).to eq('1CDD78C864877915')
+    expect(@key.fingerprint).to eq('1CDD78C864877915')
     @key = @handle.keys.create(content: KEYS::RSA)
-    expect(@key.key_id).to eq('85:32:3a:0b:31:e3:9d:16:b0:83:85:f0:0f:28:26:50')
+    expect(@key.fingerprint).to eq('85:32:3a:0b:31:e3:9d:16:b0:83:85:f0:0f:28:26:50')
   end
 end

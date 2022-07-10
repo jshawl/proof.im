@@ -3,7 +3,7 @@
   <p>You are currently logged in as <%= @handle.name %> 
   w/ 
   🔑 <small>(<%= session_proof.key.kind %>)</small>
-  <%= session_proof.key.key_id %></p>
+  <%= session_proof.key.fingerprint %></p>
 <% end %>
 
 <h2>Public Keys:</h2>
@@ -13,7 +13,7 @@
 <% else %>
   <ul>
     <% @handle.keys.verified.each do |key| %>
-      <li>🔑 <small>(<%= key.kind %>)</small> <%= link_to key.key_id, handle_key_path(@handle.name, key) %></li>
+      <li>🔑 <small>(<%= key.kind %>)</small> <%= link_to key.fingerprint, handle_key_path(@handle.name, key.fingerprint) %></li>
     <% end %>
   </ul>
 <% end %>

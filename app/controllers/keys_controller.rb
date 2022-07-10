@@ -12,16 +12,16 @@ class KeysController < ApplicationController
 
   def create
     @key = @handle.keys.create!(key_params)
-    redirect_to handle_key_path(handle_id: @handle.name, id: @key.id)
+    redirect_to handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
   end
 
   def show
-    @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:id])
+    @key = Handle.find_by_name(params[:handle_id]).keys.find_by_fingerprint(params[:id])
     @proof = @key.proofs.key.first || @key.proofs.new
   end
 
   def claim
-    @key = Handle.find_by_name(params[:handle_id]).keys.find(params[:key_id])
+    @key = Handle.find_by_name(params[:handle_id]).keys.find_by_fingerprint(params[:key_id])
   end
 
   private

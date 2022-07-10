@@ -5,7 +5,7 @@ class ProofsController < ApplicationController
   before_action :find_handle
 
   def show
-    @key = @handle.keys.find(params[:key_id])
+    @key = @handle.keys.find_by_fingerprint(params[:key_id])
     @proof = @key.proofs.first
   end
 

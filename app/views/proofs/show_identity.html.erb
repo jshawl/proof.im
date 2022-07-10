@@ -20,7 +20,7 @@
       ✅ <small>proof created at <%= proof.created_at %></small>
       <h2>The Claim</h2>
       <pre><code><%= proof.claim %></code></pre>
-      was signed with <%= proof.key.handle.name %>'s verified key 🔑 <small>(<%= proof.key.kind %>)</small> <%= link_to proof.key.key_id, handle_key_path(id: proof.key) %>
+      was signed with <%= proof.key.handle.name %>'s verified key 🔑 <small>(<%= proof.key.kind %>)</small> <%= link_to proof.key.fingerprint, handle_key_path(id: proof.key.fingerprint) %>
       <h2>The Signature</h2>
       <pre><code><%= proof.signature %></code></pre>
 
