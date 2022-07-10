@@ -17,10 +17,10 @@ class Key < ApplicationRecord
                 else
                   'minisign'
                 end
-    self.fingerprint = if self.kind&.match(/ssh/)
-                  SSHData::PublicKey.parse_openssh(content).fingerprint(md5: true)
-                else
-                  Minisign::PublicKey.new(content).key_id
-                end
+    self.fingerprint = if kind&.match(/ssh/)
+                         SSHData::PublicKey.parse_openssh(content).fingerprint(md5: true)
+                       else
+                         Minisign::PublicKey.new(content).key_id
+                       end
   end
 end
