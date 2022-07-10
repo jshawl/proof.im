@@ -100,11 +100,8 @@ nav h1 {
   font-size: .9rem;
 }
 @media all and (max-width: 40em){
-  nav, section {
+  nav, section, footer {
     padding: .5em 1em;
-  }
-  nav h1 {
-    margin-bottom: 1em;
   }
 }
 
