@@ -18,7 +18,7 @@ class ProofsController < ApplicationController
 
   def create_identity
     username = params[:handle_id]
-    create_proof_if_verified(username, 'identity', "https://news.ycombinator.com/user?id=#{username}")
+    create_proof_if_verified(username, 'hn_identity', "https://news.ycombinator.com/user?id=#{username}")
     head 200
   end
 

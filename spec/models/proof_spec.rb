@@ -24,7 +24,7 @@ describe 'Proof' do
   describe 'of identity' do
     before do
       @proof = @key.proofs.create(
-        kind: :identity,
+        kind: :hn_identity,
         claim: fixture('identity.txt'),
         signature: fixture('identity.txt.sig'),
         username: 'jshawl'

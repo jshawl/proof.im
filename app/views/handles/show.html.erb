@@ -28,9 +28,7 @@
   <ul class='identities'>
     <% @identities.each do |identity| %>
       <li>
-        <%= link_to handle_on_hn_path(handle_id: @handle.name) do %>
-          <%= image_tag("hn.png", alt: "Y Combinator Logo") %><%= identity.username %>
-        <% end %>
+        <%= identity_link(identity) %>
       </li>
     <% end %>
   </ul>

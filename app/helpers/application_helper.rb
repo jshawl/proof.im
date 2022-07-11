@@ -14,4 +14,14 @@ module ApplicationHelper
   def handle_key_claim(handle, key)
     "I am proving that I am #{handle} on proof.im with the following public key:\n#{key}"
   end
+
+  def identity_link(proof)
+    if proof.kind == 'hn_identity'
+      slug = 'hn'
+      alt = 'Y Combinator Logo'
+    end
+    link_to handle_identity_path(handle_id: @handle.name, service: slug) do 
+      image_tag("#{slug}.png", alt: alt) + proof.username 
+    end
+  end
 end
