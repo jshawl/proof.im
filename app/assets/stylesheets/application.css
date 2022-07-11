@@ -173,3 +173,17 @@ a.btn {
 a.btn:hover {
   background: #f9f9f9;
 }
+
+.keys, .identities {
+  list-style: none;
+  padding-left: 0;
+}
+
+.identities li a{
+  display: flex;
+  align-items: center;
+}
+.identities img {
+  max-width: 25px;
+  margin-right: 1em;
+}

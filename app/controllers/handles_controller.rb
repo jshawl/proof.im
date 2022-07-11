@@ -10,6 +10,7 @@ class HandlesController < ApplicationController
 
   def show
     @handle = Handle.find_by_name(params[:id])
+    @identities = Proof.where('key_id in (?) AND kind = 2', @handle.key_ids)
     raise ActionController::RoutingError, 'not found' if @handle.nil?
   end
 
