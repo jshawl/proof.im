@@ -20,6 +20,10 @@ module ApplicationHelper
       slug = 'hn'
       alt = 'Y Combinator Logo'
     end
+    if proof.kind == 'github_identity'
+      slug = 'github'
+      alt = 'GitHub logo'
+    end
     link_to handle_identity_path(handle_id: @handle.name, service: slug) do 
       image_tag("#{slug}.png", alt: alt) + proof.username 
     end

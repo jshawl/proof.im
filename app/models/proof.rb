@@ -3,7 +3,7 @@
 require 'net/http'
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
-  enum kind: %i[key session hn_identity]
+  enum kind: %i[key session hn_identity github_identity]
 
   def verification
     if key.kind == 'minisign'
@@ -29,7 +29,9 @@ class Proof < ApplicationRecord
   end
 
   def verified?
-    return public_claim_exists? && valid_signature? if kind == 'hn_identity'
+    if kind.match /identity/
+      return public_claim_exists? && valid_signature?
+    end
 
     valid_signature?
   end
@@ -40,17 +42,17 @@ class Proof < ApplicationRecord
     end
   end
 
-  def public_claim_url
-    if kind == 'hn_identity'
-      "https://news.ycombinator.com/user?id=#{username}"
-    end
-  end
+  # def public_claim_url
+  #   if kind == 'hn_identity'
+  #     "https://news.ycombinator.com/user?id=#{username}"
+  #   end
+  # end
 
   def public_claim_exists?
     # TODO: handle timeout
     # todo cache response
     resp = Net::HTTP.get(URI(public_claim_url))
-    !!resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-#{slug}")
+    !!(resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-#{slug}") || resp.match("https://proof.im/#{key.handle.name}/on-#{slug}"))
   end
   
 end

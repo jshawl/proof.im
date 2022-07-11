@@ -1,16 +1,31 @@
 <% if @proofs.empty? %>
-  <%= @handle.name %> has not proven their HN identity.
+  <%= @handle.name %> has not proven their <%= params[:service] %> identity.
   <% if current_handle == @handle.name %>
   to do so, sign the claim:
 
-    <pre><code>
-    curl <%= handle_identity_claim_url(format: 'txt') %> > /tmp/claim.txt
-  
-    ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
-    
-    curl -F "signature=@/tmp/claim.txt.sig" \
-    -F "claim=@/tmp/claim.txt" \
-    <%= handle_on_hn_url(handle_id: @handle.name) %></code></pre>
+    <pre><code>curl <%= handle_identity_claim_url(format: 'txt') %> > /tmp/claim.txt
+
+ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt
+</code></pre>
+<h3>Create a gist</h3>
+visit https://gist.github.com/new and create a public gist
+where the contents contain a link back to this page: <a href="https://proof.im/jshawl/on-github">https://proof.im/jshawl/on-github</a>
+<br>
+<label for="gist">Gist URL:</label>  
+<input>
+<h3>Upload the Signature</h3>
+<pre><code>curl -F "signature=@/tmp/claim.txt.sig" \
+     -F "claim=@/tmp/claim.txt" \
+     -F "public_claim_url=<span class='js-output'>&lt;GIST_URL></span>" \
+     <%= handle_identity_url(handle_id: @handle.name) %></code></pre>
+
+     <script>
+     const input = document.querySelector("input")
+     const output = document.querySelector(".js-output")
+  input.addEventListener('keyup', (e) => {
+    output.innerHTML = e.target.value
+  })
+     </script>
   <% end %>
   
 <% else %>

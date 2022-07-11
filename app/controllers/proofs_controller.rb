@@ -13,12 +13,18 @@ class ProofsController < ApplicationController
 
   def show_identity
     key_ids = @handle.keys.pluck(:id)
-    @proofs = Proof.where('key_id in (?) AND kind = 2', key_ids)
+    kind = Proof.kinds[params[:service]+ "_identity"]
+    @proofs = Proof.where('key_id in (?) AND kind = ?', key_ids, kind)
   end
 
   def create_identity
     username = params[:handle_id]
-    create_proof_if_valid_signature(username, "#{params[:service]}_identity", "https://news.ycombinator.com/user?id=#{username}")
+    if params[:service] == "hn"
+      public_claim_url = "https://news.ycombinator.com/user?id=#{username}"
+    else
+      public_claim_url = params[:public_claim_url]
+    end
+    create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
     head 200
   end
 
