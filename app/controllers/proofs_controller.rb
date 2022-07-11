@@ -18,13 +18,13 @@ class ProofsController < ApplicationController
 
   def create_identity
     username = params[:handle_id]
-    create_proof_if_verified(username, "#{params[:service]}_identity", "https://news.ycombinator.com/user?id=#{username}")
+    create_proof_if_valid_signature(username, "#{params[:service]}_identity", "https://news.ycombinator.com/user?id=#{username}")
     head 200
   end
 
   def create
     username = params[:username]
-    create_proof_if_verified(username, params[:kind])
+    create_proof_if_valid_signature(username, params[:kind])
     head 200
   end
 
@@ -35,7 +35,7 @@ class ProofsController < ApplicationController
   end
 
   # rubocop:disable Metrics/MethodLength
-  def create_proof_if_verified(username, kind, public_claim_url = nil)
+  def create_proof_if_valid_signature(username, kind, public_claim_url = nil)
     signature = params[:signature].read
     claim = params[:claim].read
     # rubocop:disable Style/HashEachMethods
