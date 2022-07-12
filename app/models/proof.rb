@@ -38,12 +38,6 @@ class Proof < ApplicationRecord
     'hn' if kind == 'hn_identity'
   end
 
-  # def public_claim_url
-  #   if kind == 'hn_identity'
-  #     "https://news.ycombinator.com/user?id=#{username}"
-  #   end
-  # end
-
   def public_claim_exists?
     # TODO: handle timeout
     # todo cache response
