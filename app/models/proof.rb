@@ -29,17 +29,13 @@ class Proof < ApplicationRecord
   end
 
   def verified?
-    if kind.match /identity/
-      return public_claim_exists? && valid_signature?
-    end
+    return public_claim_exists? && valid_signature? if kind.match(/identity/)
 
     valid_signature?
   end
 
   def slug
-    if kind == 'hn_identity'
-      'hn'
-    end
+    'hn' if kind == 'hn_identity'
   end
 
   # def public_claim_url
@@ -54,5 +50,4 @@ class Proof < ApplicationRecord
     resp = Net::HTTP.get(URI(public_claim_url))
     !!(resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-#{slug}") || resp.match("https://proof.im/#{key.handle.name}/on-#{slug}"))
   end
-  
 end

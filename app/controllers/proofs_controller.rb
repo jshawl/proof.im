@@ -18,11 +18,11 @@ class ProofsController < ApplicationController
 
   def create_identity
     username = params[:handle_id]
-    if params[:service] == "hn"
-      public_claim_url = "https://news.ycombinator.com/user?id=#{username}"
-    else
-      public_claim_url = params[:public_claim_url]
-    end
+    public_claim_url = if params[:service] == 'hn'
+                         "https://news.ycombinator.com/user?id=#{username}"
+                       else
+                         params[:public_claim_url]
+                       end
     create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
     head 200
   end
