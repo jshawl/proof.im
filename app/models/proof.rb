@@ -35,7 +35,7 @@ class Proof < ApplicationRecord
   end
 
   def slug
-    'hn' if kind == 'hn_identity'
+    kind.gsub(/_identity/, '')
   end
 
   def valid_public_claim_url?
