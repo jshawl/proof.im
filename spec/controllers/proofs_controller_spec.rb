@@ -38,15 +38,27 @@ describe 'Proofs controller', type: :request do
   end
   it 'creates GitHub identity proof' do
     @key = @handle.keys.create(content: KEYS::RSA)
-    stub_request(:get, 'https://gist.github.com/387459683b4dab2b6c07d428d188daa5')
+    stub_request(:get, 'https://gist.github.com/jshawl/387459683b4dab2b6c07d428d188daa5')
       .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-github")
     expect do
-      post '/jshawl/on-github', params: identity_params.merge(public_claim_url: 'https://gist.github.com/387459683b4dab2b6c07d428d188daa5')
+      post '/jshawl/on-github', params: identity_params.merge(public_claim_url: 'https://gist.github.com/jshawl/387459683b4dab2b6c07d428d188daa5')
     end.to change { Proof.count }.by(1)
     expect(Proof.last.username).to eq('jshawl')
     expect(Proof.last.verified?).to be(true)
     get '/jshawl/on-github'
     expect(response.body).to match('✅')
+  end
+  it 'doesnt allow rogue identity urls' do
+    @key = @handle.keys.create(content: KEYS::RSA)
+    stub_request(:get, 'https://example.com')
+      .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-github")
+    expect do
+      post '/jshawl/on-github', params: identity_params.merge(public_claim_url: 'https://example.com')
+    end.to change { Proof.count }.by(1)
+    expect(Proof.last.username).to eq('jshawl')
+    expect(Proof.last.verified?).to be(false)
+    get '/jshawl/on-github'
+    expect(response.body).not_to match('✅')
   end
   it 'shows proof of identity' do
     @key = @handle.keys.create(content: KEYS::RSA)

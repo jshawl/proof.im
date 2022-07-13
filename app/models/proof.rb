@@ -29,13 +29,22 @@ class Proof < ApplicationRecord
   end
 
   def verified?
-    return public_claim_exists? && valid_signature? if kind.match(/identity/)
+    return public_claim_exists? && valid_signature? && valid_public_claim_url? if kind.match(/identity/)
 
     valid_signature?
   end
 
   def slug
     'hn' if kind == 'hn_identity'
+  end
+
+  def valid_public_claim_url?
+    if kind == 'hn_identity'
+      return !!public_claim_url.match(/^https:\/\/news\.ycombinator\.com\/user\?id=[a-zA-Z_]+$/)
+    end
+    if kind == 'github_identity'
+      return !!public_claim_url.match(/^https:\/\/gist.github.com\/[a-zA-Z0-0_-]+\/[a-z0-9]+/)
+    end
   end
 
   def public_claim_exists?
