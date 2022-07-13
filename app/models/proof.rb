@@ -39,12 +39,9 @@ class Proof < ApplicationRecord
   end
 
   def valid_public_claim_url?
-    if kind == 'hn_identity'
-      return !!public_claim_url.match(/^https:\/\/news\.ycombinator\.com\/user\?id=[a-zA-Z_]+$/)
-    end
-    if kind == 'github_identity'
-      return !!public_claim_url.match(/^https:\/\/gist.github.com\/[a-zA-Z0-0_-]+\/[a-z0-9]+/)
-    end
+    return !!public_claim_url.match(%r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$}) if kind == 'hn_identity'
+
+    !!public_claim_url.match(%r{^https://gist.github.com/[a-zA-Z0-_-]+/[a-z0-9]+}) if kind == 'github_identity'
   end
 
   def public_claim_exists?
