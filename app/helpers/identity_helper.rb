@@ -6,13 +6,15 @@ module IdentityHelper
       image: {
         path: 'hn.png',
         alt: 'Y Combinator Logo'
-      }
+      },
+      claim_url_regex: %r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$}
     },
     github: {
       image: {
         path: 'github.png',
         alt: 'GitHub Logo'
-      }
+      },
+      claim_url_regex: %r{^https://gist.github.com/[a-zA-Z0-_-]+/[a-z0-9]+}
     }
   }.freeze
 

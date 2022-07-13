@@ -39,9 +39,7 @@ class Proof < ApplicationRecord
   end
 
   def valid_public_claim_url?
-    return !!public_claim_url.match(%r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$}) if kind == 'hn_identity'
-
-    !!public_claim_url.match(%r{^https://gist.github.com/[a-zA-Z0-_-]+/[a-z0-9]+}) if kind == 'github_identity'
+    return !!public_claim_url.match(IdentityHelper::MAPPINGS[slug.to_sym][:claim_url_regex])
   end
 
   def public_claim_exists?
