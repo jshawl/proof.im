@@ -12,8 +12,7 @@ class ProofsController < ApplicationController
   def claim; end
 
   def show_identity
-    key_ids = @handle.keys.pluck(:id)
-    @proofs = Proof.where('key_id in (?) AND kind = ?', key_ids, kind_from_slug(params[:service]))
+    @proofs = @handle.identities.where(kind: kind_from_slug(params[:service]))
   end
 
   def create_identity
