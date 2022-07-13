@@ -36,11 +36,25 @@ describe 'Proofs controller', type: :request do
     expect(Proof.last.username).to eq('jshawl')
     expect(Proof.last.verified?).to be(true)
   end
+  it 'creates GitHub identity proof' do
+    @key = @handle.keys.create(content: KEYS::RSA)
+    stub_request(:get, 'https://gist.github.com/387459683b4dab2b6c07d428d188daa5')
+      .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-github")
+    expect do
+      post '/jshawl/on-github', params: identity_params.merge(public_claim_url: 'https://gist.github.com/387459683b4dab2b6c07d428d188daa5')
+    end.to change { Proof.count }.by(1)
+    expect(Proof.last.username).to eq('jshawl')
+    expect(Proof.last.verified?).to be(true)
+    get '/jshawl/on-github'
+    expect(response.body).to match('✅')
+  end
   it 'shows proof of identity' do
     @key = @handle.keys.create(content: KEYS::RSA)
     stub_request(:get, 'https://news.ycombinator.com/user?id=jshawl')
       .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-hn")
     post '/jshawl/on-hn', params: identity_params
+    expect(@handle.identities.length).to eq(1)
     get '/jshawl/on-hn'
+    expect(response.body).to match('✅')
   end
 end
