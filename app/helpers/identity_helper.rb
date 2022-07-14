@@ -7,7 +7,8 @@ module IdentityHelper
         path: 'hn.png',
         alt: 'Y Combinator Logo'
       },
-      claim_url_regex: %r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$}
+      claim_url_regex: %r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$},
+      public_claim_url: proc { |u| "https://news.ycombinator.com/user?id=#{u}" }
     },
     github: {
       image: {

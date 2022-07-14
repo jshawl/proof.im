@@ -39,7 +39,7 @@ class Proof < ApplicationRecord
   end
 
   def valid_public_claim_url?
-    return !!public_claim_url.match(IdentityHelper::MAPPINGS[slug.to_sym][:claim_url_regex])
+    !!public_claim_url.match(IdentityHelper::MAPPINGS[slug.to_sym][:claim_url_regex])
   end
 
   def public_claim_exists?
