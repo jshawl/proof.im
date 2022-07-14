@@ -5,6 +5,28 @@ class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
   enum kind: %i[key session hn_identity github_identity]
 
+  # rubocop:disable Metrics/MethodLength
+  def self.identities
+    {
+      hn: {
+        image: {
+          path: 'hn.png',
+          alt: 'Y Combinator Logo'
+        },
+        claim_url_regex: %r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$},
+        public_claim_url: proc { |u| "https://news.ycombinator.com/user?id=#{u}" }
+      },
+      github: {
+        image: {
+          path: 'github.png',
+          alt: 'GitHub Logo'
+        },
+        claim_url_regex: %r{^https://gist.github.com/[a-zA-Z0-_-]+/[a-z0-9]+}
+      }
+    }
+  end
+  # rubocop:enable Metrics/MethodLength
+
   def verification
     if key.kind == 'minisign'
       minisign_verification
@@ -39,7 +61,7 @@ class Proof < ApplicationRecord
   end
 
   def valid_public_claim_url?
-    !!public_claim_url.match(IdentityHelper::MAPPINGS[slug.to_sym][:claim_url_regex])
+    !!public_claim_url.match(self.class.identities[slug.to_sym][:claim_url_regex])
   end
 
   def public_claim_exists?

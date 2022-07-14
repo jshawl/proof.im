@@ -17,7 +17,7 @@ class ProofsController < ApplicationController
 
   def create_identity
     username = params[:handle_id]
-    public_claim_url = IdentityHelper::MAPPINGS[params[:service].to_sym][:public_claim_url]&.call(username)
+    public_claim_url = Proof.identities[params[:service].to_sym][:public_claim_url]&.call(username)
     public_claim_url ||= params[:public_claim_url]
     create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
     head 200
