@@ -19,8 +19,9 @@ class SessionsController < ApplicationController
     claim = params[:session][:claim]
     proof = Proof.find_by_claim("#{claim}\n")
     begin
+      proof.kind = 'session'
       proof.verified?
-      proof.update(kind: 'session')
+      proof.save!
     rescue StandardError
       flash[:notice] = 'No proof of that claim exists. Try again?'
       return redirect_back(fallback_location: new_session_path)
