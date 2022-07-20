@@ -19,14 +19,28 @@ class ProofsController < ApplicationController
     username = params[:handle_id]
     public_claim_url = Proof.identities[params[:service].to_sym][:public_claim_url]&.call(username)
     public_claim_url ||= params[:public_claim_url]
-    create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
-    head 200
+
+    proof = create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
+  
+    if proof.nil?
+      return render json: {error: "invalid signature"}
+    end
+    if proof && !proof.valid_public_claim_url?
+      return render json: {error: "invalid public_claim_url"}
+    else
+      return render json: {success: true}
+    end
+  
   end
 
   def create
     username = params[:username]
-    create_proof_if_valid_signature(username, params[:kind])
-    head 200
+    proof = create_proof_if_valid_signature(username, params[:kind])
+    if proof
+      render json: {success: true}
+    else
+      render json: {error: "invalid signature"}
+    end
   end
 
   private
@@ -50,14 +64,17 @@ class ProofsController < ApplicationController
         public_claim_url:
       )
       begin
-        proof.save if proof.valid_signature?
-        return proof
+        if proof.valid_signature?
+          proof.save
+          return proof
+        end
       # rubocop:disable Lint/RescueException
       rescue Exception => e
         # rubocop:enable Lint/RescueException
         Rails.logger.error e
       end
     end
+    return nil
   end
   # rubocop:enable Metrics/MethodLength
 end
