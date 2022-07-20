@@ -3,7 +3,29 @@
 require 'net/http'
 class Proof < ApplicationRecord
   belongs_to :key # eventually polymorphic
-  enum kind: %i[key session identity]
+  enum kind: %i[key session hn_identity github_identity]
+
+  # rubocop:disable Metrics/MethodLength
+  def self.identities
+    {
+      hn: {
+        image: {
+          path: 'hn.png',
+          alt: 'Y Combinator Logo'
+        },
+        claim_url_regex: %r{^https://news\.ycombinator\.com/user\?id=[a-zA-Z_]+$},
+        public_claim_url: proc { |u| "https://news.ycombinator.com/user?id=#{u}" }
+      },
+      github: {
+        image: {
+          path: 'github.png',
+          alt: 'GitHub Logo'
+        },
+        claim_url_regex: %r{^https://gist.github.com/[a-zA-Z0-_-]+/[a-z0-9]+}
+      }
+    }
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def verification
     if key.kind == 'minisign'
@@ -29,15 +51,23 @@ class Proof < ApplicationRecord
   end
 
   def verified?
-    return public_claim_exists? && valid_signature? if kind == 'identity'
+    return public_claim_exists? && valid_signature? && valid_public_claim_url? if kind.match(/identity/)
 
     valid_signature?
+  end
+
+  def slug
+    kind.gsub(/_identity/, '')
+  end
+
+  def valid_public_claim_url?
+    !!public_claim_url.match(self.class.identities[slug.to_sym][:claim_url_regex])
   end
 
   def public_claim_exists?
     # TODO: handle timeout
     # todo cache response
-    resp = Net::HTTP.get(URI("https://news.ycombinator.com/user?id=#{username}"))
-    !!resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-hn")
+    resp = Net::HTTP.get(URI(public_claim_url))
+    !!(resp.match("https:&#x2F;&#x2F;proof.im&#x2F;#{key.handle.name}&#x2F;on-#{slug}") || resp.match("https://proof.im/#{key.handle.name}/on-#{slug}"))
   end
 end

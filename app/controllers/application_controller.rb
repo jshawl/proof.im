@@ -2,4 +2,5 @@
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper
+  include IdentityHelper
 end

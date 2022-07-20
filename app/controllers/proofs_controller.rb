@@ -12,19 +12,20 @@ class ProofsController < ApplicationController
   def claim; end
 
   def show_identity
-    key_ids = @handle.keys.pluck(:id)
-    @proofs = Proof.where('key_id in (?) AND kind = 2', key_ids)
+    @proofs = @handle.identities.where(kind: kind_from_slug(params[:service]))
   end
 
   def create_identity
     username = params[:handle_id]
-    create_proof_if_verified(username, 'identity', "https://news.ycombinator.com/user?id=#{username}")
+    public_claim_url = Proof.identities[params[:service].to_sym][:public_claim_url]&.call(username)
+    public_claim_url ||= params[:public_claim_url]
+    create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
     head 200
   end
 
   def create
     username = params[:username]
-    create_proof_if_verified(username, params[:kind])
+    create_proof_if_valid_signature(username, params[:kind])
     head 200
   end
 
@@ -35,7 +36,7 @@ class ProofsController < ApplicationController
   end
 
   # rubocop:disable Metrics/MethodLength
-  def create_proof_if_verified(username, kind, public_claim_url = nil)
+  def create_proof_if_valid_signature(username, kind, public_claim_url = nil)
     signature = params[:signature].read
     claim = params[:claim].read
     # rubocop:disable Style/HashEachMethods
@@ -50,6 +51,7 @@ class ProofsController < ApplicationController
       )
       begin
         proof.save if proof.valid_signature?
+        return proof
       # rubocop:disable Lint/RescueException
       rescue Exception => e
         # rubocop:enable Lint/RescueException

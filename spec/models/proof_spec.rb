@@ -22,21 +22,23 @@ describe 'Proof' do
     expect(@proof.verified?).to be(false)
   end
   describe 'of identity' do
+    public_claim_url = 'https://news.ycombinator.com/user?id=jshawl'
     before do
       @proof = @key.proofs.create(
-        kind: :identity,
+        kind: :hn_identity,
         claim: fixture('identity.txt'),
         signature: fixture('identity.txt.sig'),
-        username: 'jshawl'
+        username: 'jshawl',
+        public_claim_url:
       )
     end
     it 'proves identities when the public claim is present' do
-      stub_request(:get, 'https://news.ycombinator.com/user?id=jshawl')
+      stub_request(:get, public_claim_url)
         .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-hn")
       expect(@proof.verified?).to be(true)
     end
     it 'is not proven when the public claim is absent' do
-      stub_request(:get, 'https://news.ycombinator.com/user?id=jshawl')
+      stub_request(:get, public_claim_url)
         .to_return(status: 200, body: "Here's some proof: https://example.com")
       expect(@proof.verified?).to be(false)
     end
