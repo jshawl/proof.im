@@ -51,6 +51,7 @@ class ProofsController < ApplicationController
       )
       begin
         proof.save if proof.valid_signature?
+        return proof
       # rubocop:disable Lint/RescueException
       rescue Exception => e
         # rubocop:enable Lint/RescueException
