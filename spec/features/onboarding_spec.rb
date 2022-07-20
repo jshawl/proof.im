@@ -14,7 +14,7 @@ describe 'Claiming a Handle' do
   it 'shows a profile if verified key' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: KEYS::MINISIGN)
-    @proof = @key.proofs.create(signature: fixture('claim.txt.minisig'))
+    @proof = @key.proofs.create(signature: fixture('claim.txt.minisig'), claim: fixture('claim.txt'))
 
     visit new_registration_path
     fill_in 'handle[name]', with: 'jshawl'
@@ -58,7 +58,7 @@ describe 'Claiming a handle that already has keys' do
   it 'should not allow randos to add keys' do
     @handle = Handle.create(name: 'jshawl')
     @key = @handle.keys.create(content: KEYS::MINISIGN)
-    @proof = @key.proofs.create(signature: fixture('claim.txt.minisig'))
+    @proof = @key.proofs.create(signature: fixture('claim.txt.minisig'), claim: fixture('claim.txt'))
     visit handle_path(id: @handle.name)
     expect(page).to have_no_content('Add a public key')
   end
