@@ -15,31 +15,27 @@ class ProofsController < ApplicationController
     @proofs = @handle.identities.where(kind: kind_from_slug(params[:service]))
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create_identity
-    username = params[:handle_id]
-    public_claim_url = Proof.identities[params[:service].to_sym][:public_claim_url]&.call(username)
+    public_claim_url = Proof.identities[params[:service].to_sym][:public_claim_url]&.call(params[:handle_id])
     public_claim_url ||= params[:public_claim_url]
 
-    proof = create_proof_if_valid_signature(username, "#{params[:service]}_identity", public_claim_url)
-  
-    if proof.nil?
-      return render json: {error: "invalid signature"}
-    end
-    if proof && !proof.valid_public_claim_url?
-      return render json: {error: "invalid public_claim_url"}
-    else
-      return render json: {success: true}
-    end
-  
+    proof = create_proof_if_valid_signature(params[:handle_id], "#{params[:service]}_identity", public_claim_url)
+
+    return render json: { error: 'invalid signature' } if proof.nil?
+    return render json: { error: 'invalid public_claim_url' } if proof && !proof.valid_public_claim_url?
+
+    render json: { success: true }
   end
+  # rubocop:enable Metrics/AbcSize
 
   def create
     username = params[:username]
     proof = create_proof_if_valid_signature(username, params[:kind])
     if proof
-      render json: {success: true}
+      render json: { success: true }
     else
-      render json: {error: "invalid signature"}
+      render json: { error: 'invalid signature' }
     end
   end
 
@@ -74,7 +70,7 @@ class ProofsController < ApplicationController
         Rails.logger.error e
       end
     end
-    return nil
+    nil
   end
   # rubocop:enable Metrics/MethodLength
 end

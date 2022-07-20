@@ -25,7 +25,7 @@ describe 'Proofs controller', type: :request do
         claim: uploaded_file('session.txt')
       }
     end.to change { Proof.count }.by(1)
-    expect(JSON.parse(response.body)).to eq({"success" => true})
+    expect(json_response).to eq({ success: true })
   end
   it 'handles invalid signatures' do
     expect do
@@ -34,7 +34,7 @@ describe 'Proofs controller', type: :request do
         claim: uploaded_file('session.txt')
       }
     end.to change { Proof.count }.by(0)
-    expect(JSON.parse(response.body)).to eq({"error" => "invalid signature"})
+    expect(json_response).to eq({ error: 'invalid signature' })
   end
   it 'creates proof of identity' do
     @key = @handle.keys.create(content: KEYS::RSA)
@@ -51,9 +51,9 @@ describe 'Proofs controller', type: :request do
     stub_request(:get, 'https://news.ycombinator.com/user?id=jshawl')
       .to_return(status: 200, body: "Here's some proof: https:&#x2F;&#x2F;proof.im&#x2F;jshawl&#x2F;on-hn")
     expect do
-      post '/jshawl/on-hn', params: identity_params.merge(claim: uploaded_file("session.txt"))
+      post '/jshawl/on-hn', params: identity_params.merge(claim: uploaded_file('session.txt'))
     end.to change { Proof.count }.by(0)
-    expect(JSON.parse(response.body)).to eq({"error" => 'invalid signature'})
+    expect(json_response).to eq({ error: 'invalid signature' })
   end
   it 'creates GitHub identity proof' do
     @key = @handle.keys.create(content: KEYS::RSA)
@@ -76,7 +76,7 @@ describe 'Proofs controller', type: :request do
     end.to change { Proof.count }.by(1)
     expect(Proof.last.username).to eq('jshawl')
     expect(Proof.last.verified?).to be(false)
-    expect(JSON.parse(response.body)).to eq({"error" => "invalid public_claim_url"})
+    expect(json_response).to eq({ error: 'invalid public_claim_url' })
     get '/jshawl/on-github'
     expect(response.body).not_to match('✅')
   end

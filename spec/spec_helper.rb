@@ -31,6 +31,10 @@ def fixture(path)
   File.read("spec/fixtures/#{path}")
 end
 
+def json_response
+  JSON.parse(response.body).deep_symbolize_keys
+end
+
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.formatter = :documentation
