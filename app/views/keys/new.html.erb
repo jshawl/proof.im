@@ -1,4 +1,4 @@
-Add a new key for <%= @handle.name %>:
+<p>Add a new key for <%= @handle.name %>:</p>
 
 <%= tabs do %>
   <% tab_for('ssh-rsa') do %>
@@ -6,6 +6,12 @@ Add a new key for <%= @handle.name %>:
     <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
     <h3>2. Copy the public key</h3>
     <pre><code>cat ~/.ssh/id_rsa.pub</code></pre>
+  <% end %>
+  <% tab_for('ssh-ed25519') do %>
+    <h3>1. Generate a private/public key-pair</h3>
+    <pre><code>ssh-keygen -t ed25519</code></pre>
+    <h3>2. Copy the public key</h3>
+    <pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
   <% end %>
   <% tab_for('minisign') do %>
     <h3>1. Generate a private/public key-pair</h3>

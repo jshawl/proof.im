@@ -28,7 +28,11 @@
     <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
     <h3>2. Claim a handle and upload a public key</h3>
   <% end %>
-
+  <% tab_for('ssh-ed25519') do %>
+    <h3>1. Generate a private/public key-pair</h3>
+    <pre><code>ssh-keygen -t ed25519</code></pre>
+    <h3>2. Claim a handle and upload a public key</h3>
+  <% end %>
   <% tab_for('minisign') do %>
     <h3>1. Install <code>minisign</code></h3>
     Visit <a href='https://jedisct1.github.io/minisign/'>https://jedisct1.github.io/minisign/</a> and download the `minisign` executable.

@@ -1,5 +1,3 @@
-
-
 <h2>Public Key ID: <code><%= @key.fingerprint %></code></h2>
 <pre style='white-space: pre-wrap;word-wrap: break-word'><code><%= @key.content %></code></pre>
 <%= link_to "curl/raw", handle_key_path(handle_id: @handle.name, id: @key.fingerprint, format: 'txt') %>
@@ -14,26 +12,27 @@
 
 <h3>Prove it!</h3>
 
-<div class='tabs'>
-  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
-  <label for='ssh-rsa'>ssh-rsa</label>
-  <input type='radio' id='minisign' value='minisign' name='unique' checked>
-  <label for='minisign'>minisign</label>
-  <div class='tabs-content'>
-    <div id='ssh-rsa'>
-      <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
+<%= tabs do %>
+  <% tab_for('ssh-rsa') do %>
+    <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
       <pre><code>ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt</code></pre>
       <p>and upload the signature:</p>
       <pre><code>curl -F "signature=@/tmp/claim.txt.sig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
-    </div>
-    <div id='minisign'>
-      <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
-      <pre><code>minisign -Sm /tmp/claim.txt</code></pre>
+
+  <% end %>
+  <% tab_for('ssh-ed25519') do %>
+    <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
+      <pre><code>ssh-keygen -Y sign -n file -f ~/.ssh/id_ed25519 /tmp/claim.txt</code></pre>
       <p>and upload the signature:</p>
-      <pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
-    </div>
-  </div>
-</div>
+      <pre><code>curl -F "signature=@/tmp/claim.txt.sig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
+  <% end %>
+  <% tab_for('minisign') do %>
+    <pre><code>curl <%= handle_key_claim_url(@handle.name, @key, format: 'txt')%> > /tmp/claim.txt</code></pre>
+    <pre><code>minisign -Sm /tmp/claim.txt</code></pre>
+    <p>and upload the signature:</p>
+    <pre><code>curl -F "signature=@/tmp/claim.txt.minisig" -F "claim=@/tmp/claim.txt" <%= handle_proofs_url %></code></pre>
+  <% end %>
+<% end %>
 
 <%= link_to "I did this", handle_key_proof_path(@handle.name, @key.fingerprint, @proof) %>
 <% end %>
