@@ -1,0 +1,13 @@
+<div class='tabs'>
+  <% @headers.each_with_index do |header, index| %>
+    <input type='radio' id='<%= header %>' value='<%= header %>' name='unique' <%= "checked=true" if index == 0 %>>
+    <label for='<%= header %>'><%= header %></label>
+  <% end %>
+  <div class='tabs-content'>
+    <% @bodies.each_with_index do |body, index| %>
+      <div id='<%= @headers[index] %>'>
+        <%= body %>
+      </div>
+    <% end %>
+  </div>
+</div>
