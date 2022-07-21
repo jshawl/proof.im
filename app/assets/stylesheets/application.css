@@ -14,6 +14,10 @@
  *= require_self
  */
 
+ * {
+  box-sizing: border-box;
+ }
+
  html, body {
   margin: 0;
   color: #333;
@@ -137,6 +141,7 @@ nav h1 {
   display: inline-block;
   cursor: pointer;
   font-size: .8rem;
+  font-weight: normal;
 }
 .tabs input[type="radio"]{
   display: none;
@@ -159,6 +164,12 @@ input:checked + label {
   border-bottom: 3px solid #551A8B;
   margin-bottom: -2px;
 }
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
 hr {
   border: none;
   margin: 3em 0;
