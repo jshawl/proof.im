@@ -15,11 +15,11 @@ module ApplicationHelper
     "I am proving that I am #{handle} on proof.im with the following public key:\n#{key}"
   end
 
-  def tab_for(title, &block)
+  def tab_for(title, &)
     @headers ||= []
     @headers << title
     @bodies ||= []
-    @bodies << capture(&block)
+    @bodies << capture(&)
   end
 
   def tabs
