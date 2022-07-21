@@ -5,30 +5,25 @@
  <pre><code><%= @claim %></code></pre>
 <h3>Signing Instructions</h3>
 <pre><code>echo "<%= @handle.name %>:<%= @session_secret %>" > /tmp/claim.txt</code></pre>
-<div class='tabs'>
-  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
-  <label for='ssh-rsa'>ssh-rsa</label>
-  <input type='radio' id='minisign' value='minisign' name='unique' checked>
-  <label for='minisign'>minisign</label>
-  <div class='tabs-content'>
-    <div id='ssh-rsa'>
-      <h3>Sign the session claim</h3>
-      <pre><code>ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt</code></pre>
-      <h3>Upload the signature</h3>
-      <pre><code>curl -F "signature=@/tmp/claim.txt.sig" \
+
+<%= tabs do %>
+  <% tab_for('ssh-rsa') do %>
+    <h3>Sign the session claim</h3>
+    <pre><code>ssh-keygen -Y sign -n file -f ~/.ssh/id_rsa /tmp/claim.txt</code></pre>
+    <h3>Upload the signature</h3>
+    <pre><code>curl -F "signature=@/tmp/claim.txt.sig" \
      -F "claim=@/tmp/claim.txt" \
      <%= handle_proofs_url(handle_id: @handle.name) %></code></pre>
-    </div>
-    <div id='minisign'>
-      <h3>Sign the session claim</h3>
-      <pre><code>minisign -Sm /tmp/claim.txt</code></pre>
-      <h3>Upload the signature</h3>
-      <pre><code>curl -F "signature=@/tmp/claim.txt.minisig" \
+  <% end %>
+  <% tab_for('minisign') do %>
+    <h3>Sign the session claim</h3>
+    <pre><code>minisign -Sm /tmp/claim.txt</code></pre>
+    <h3>Upload the signature</h3>
+    <pre><code>curl -F "signature=@/tmp/claim.txt.minisig" \
      -F "claim=@/tmp/claim.txt" \
      <%= handle_proofs_url(handle_id: @handle.name) %></code></pre>
-    </div>
-  </div>
-</div>
+  <% end %>
+<% end %>
 
 <%= form_tag session_path do %>
     <%= hidden_field :session, :claim, value: @claim %>

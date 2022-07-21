@@ -21,29 +21,24 @@
 <hr>
 <h2>Get Started</h2>
 
-<div class='tabs'>
-  <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique' checked>
-  <label for='ssh-rsa'>ssh-rsa</label>
-  <input type='radio' id='minisign' value='minisign' name='unique'>
-  <label for='minisign'>minisign</label>
-  <div class='tabs-content'>
-    <div id='ssh-rsa'>
-      <h3>1. Generate a private/public key-pair</h3>
-      <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
-      <h3>2. Claim a handle and upload a public key</h3>
-    </div>
-    <div id='minisign'>
-      <h3>1. Install <code>minisign</code></h3>
 
-      Visit <a href='https://jedisct1.github.io/minisign/'>https://jedisct1.github.io/minisign/</a> and download the `minisign` executable.
-      
-      <h3>2. Generate a private/public key-pair</h3>
-      
-      <pre><code>minisign -G</code></pre>
-      <h3>3. Claim a handle and upload a public key</h3>
-    </div>
-  </div>
-</div>
+<%= tabs do %>
+  <% tab_for('ssh-rsa') do %>
+    <h3>1. Generate a private/public key-pair</h3>
+    <pre><code>ssh-keygen -t rsa -b 4096</code></pre>
+    <h3>2. Claim a handle and upload a public key</h3>
+  <% end %>
+
+  <% tab_for('minisign') do %>
+    <h3>1. Install <code>minisign</code></h3>
+    Visit <a href='https://jedisct1.github.io/minisign/'>https://jedisct1.github.io/minisign/</a> and download the `minisign` executable.
+    
+    <h3>2. Generate a private/public key-pair</h3>
+    
+    <pre><code>minisign -G</code></pre>
+    <h3>3. Claim a handle and upload a public key</h3>
+  <% end %>
+<% end %>
 
 <%= link_to "claim a handle", new_registration_path, class: 'btn' %> 
 
