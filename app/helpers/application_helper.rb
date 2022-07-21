@@ -15,7 +15,7 @@ module ApplicationHelper
     "I am proving that I am #{handle} on proof.im with the following public key:\n#{key}"
   end
 
-  def tab_for(title)
+  def tab_for(title, &block)
     @headers ||= []
     @headers << title
     @bodies ||= []
