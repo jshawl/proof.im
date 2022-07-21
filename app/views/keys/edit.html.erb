@@ -1,0 +1,6 @@
+<h2>Public Key ID: <code><%= @key.fingerprint %></code></h2>
+
+<%= form_with model: @key, url: handle_key_path(handle_id: @handle.name, id: @key.fingerprint), method: :patch do |f| %>
+  <%= f.text_area :content, value: @key.content %>
+  <%= f.submit %>
+<% end %>

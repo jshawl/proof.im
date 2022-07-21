@@ -15,13 +15,23 @@ class KeysController < ApplicationController
     redirect_to handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
   end
 
+  def edit
+    @key = @handle.keys.find_by_fingerprint(params[:id])
+  end
+
+  def update
+    @key = @handle.keys.find_by_fingerprint(params[:id])
+    @key.update(key_params)
+    redirect_to handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
+  end
+
   def show
-    @key = Handle.find_by_name(params[:handle_id]).keys.find_by_fingerprint(params[:id])
+    @key = @handle.keys.find_by_fingerprint(params[:id])
     @proof = @key.proofs.key.first || @key.proofs.new
   end
 
   def claim
-    @key = Handle.find_by_name(params[:handle_id]).keys.find_by_fingerprint(params[:key_id])
+    @key = @handle.keys.find_by_fingerprint(params[:key_id])
   end
 
   private
