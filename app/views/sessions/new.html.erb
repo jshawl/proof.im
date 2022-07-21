@@ -1,10 +1,8 @@
 <h2>Log In</h2>
 
 <% if params[:handle] %>
- To log in as <%= @handle.name %>, sign the session claim:
- <pre><code><%= @claim %></code></pre>
 <h3>Signing Instructions</h3>
-<pre><code>echo "<%= @handle.name %>:<%= @session_secret %>" > /tmp/claim.txt</code></pre>
+<pre><code>echo "<%= @claim %>" > /tmp/claim.txt</code></pre>
 <div class='tabs'>
   <input type='radio' id='ssh-rsa' value='ssh-rsa' name='unique'>
   <label for='ssh-rsa'>ssh-rsa</label>
@@ -36,7 +34,7 @@
 <% end %>
 <% else %>
   <%= form_tag new_session_path, method: 'GET' do %>
-    <%= label_tag :handle %>:
+    <%= label_tag :handle %>
     <%= text_field_tag :handle %>
     <%= submit_tag "Log In" %>
   <% end %>
