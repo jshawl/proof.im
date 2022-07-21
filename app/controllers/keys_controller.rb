@@ -21,8 +21,12 @@ class KeysController < ApplicationController
 
   def update
     @key = @handle.keys.find_by_fingerprint(params[:id])
-    @key.update(key_params)
-    redirect_to handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
+    if @key.update(key_params)
+      redirect_to handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
+    else
+      flash[:notice] = "not a valid public key"
+      redirect_to edit_handle_key_path(handle_id: @handle.name, id: @key.fingerprint)
+    end
   end
 
   def show
