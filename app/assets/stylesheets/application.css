@@ -112,6 +112,11 @@ section {
   padding: 1em 2em;
 }
 
+textarea {
+  width: 100%;
+  min-height: 10rem;
+}
+
 nav h1 {
   margin: 0;
   font-size: .9rem;
